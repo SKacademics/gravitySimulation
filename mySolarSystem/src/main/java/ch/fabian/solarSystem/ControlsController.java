@@ -17,19 +17,22 @@ public class ControlsController {
     @FXML
     private Slider timeStepSlider;
 
-    private GravitySimulation simulation;
+    private GravitySimulation currentSimulation;
 
     public ControlsController() {
         resetListeners = new ArrayList<>();
     }
 
-    public void setSimulation(GravitySimulation simulation) {
-        this.simulation = simulation;
-        currentTimeStep.setText(formatTimeStepLabel(simulation.timeStepProperty().getValue()));
-        simulation.timeStepProperty().addListener((observable, oldValue, newValue) -> {
+    public void setCurrentSimulation(GravitySimulation currentSimulation) {
+        if(this.currentSimulation != null){
+            timeStepSlider.valueProperty().unbind();
+        }
+        this.currentSimulation = currentSimulation;
+        currentTimeStep.setText(formatTimeStepLabel(currentSimulation.timeStepProperty().getValue()));
+        currentSimulation.timeStepProperty().addListener((observable, oldValue, newValue) -> {
             currentTimeStep.setText(formatTimeStepLabel(newValue));
         });
-        timeStepSlider.valueProperty().bindBidirectional(simulation.timeStepProperty());
+        timeStepSlider.valueProperty().bindBidirectional(currentSimulation.timeStepProperty());
     }
 
     private String formatTimeStepLabel(Number value) {

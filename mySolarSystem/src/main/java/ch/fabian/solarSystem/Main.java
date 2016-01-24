@@ -5,9 +5,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape3D;
@@ -26,6 +23,7 @@ public class Main extends Application {
     private Group simulation3d;
     private GravitySimulation currentSimulation;
     private AnimationTimer animationTimer;
+    private ControlsController controlsController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -55,8 +53,9 @@ public class Main extends Application {
 
         // Build the Scene Graph
         PointLight pointLight = new PointLight(Color.BEIGE);
-        pointLight.setTranslateY(20);
-        pointLight.setTranslateZ(20);
+        pointLight.setTranslateY(50);
+        pointLight.setTranslateZ(50);
+        pointLight.setTranslateX(50);
 
         simulation3d = new Group();
         simulation3d.getChildren().addAll(pointLight);
@@ -102,12 +101,10 @@ public class Main extends Application {
 
     private Pane buildControls() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("controls.fxml"));
-        loader.setLocation(getClass().getResource("controls.fxml"));
-
         Pane myPane =  loader.load();
-        ControlsController controller = loader.getController();
-        controller.setSimulation(currentSimulation);
-        controller.addResetListener(this::resetScene);
+        controlsController = loader.getController();
+        controlsController.setCurrentSimulation(currentSimulation);
+        controlsController.addResetListener(this::resetScene);
         return myPane;
     }
 
@@ -115,9 +112,10 @@ public class Main extends Application {
         animationTimer.stop();
         simulation3d.getChildren().removeAll(simulation3d.getChildren().stream().filter(c -> c instanceof Shape3D).collect(toList()));
         currentSimulation = createSimulation();
+        controlsController.setCurrentSimulation(currentSimulation);
+
         List<Shape3D> shapes = createShapes(currentSimulation);
         simulation3d.getChildren().addAll(shapes);
-
         startSimulation(currentSimulation);
     }
 
