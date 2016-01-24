@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem;
+package ch.fabian.solarSystem.model;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -13,7 +13,6 @@ public class GravitySimulation {
 
     private DoubleProperty timeStep = new SimpleDoubleProperty(0.01);
 
-    private long simulationStep = 0;
     static final double GRAVITY_CONSTANT = 6.674*10E-11;
 
     private List<SpaceObject> objects;
@@ -33,10 +32,6 @@ public class GravitySimulation {
             current.setPosition(newPosition);
             current.setLastSpeed(newSpeed);
         }
-        simulationStep++;
-
-        System.out.println("Simulation step: " + simulationStep);
-
         objects.stream().forEach(o -> o.setLastPosition(o.getPosition()));
     }
 

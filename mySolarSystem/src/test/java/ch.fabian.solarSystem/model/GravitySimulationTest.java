@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem;
+package ch.fabian.solarSystem.model;
 
 import javafx.geometry.Point3D;
 import org.junit.Before;

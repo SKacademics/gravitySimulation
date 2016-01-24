@@ -1,5 +1,6 @@
 package ch.fabian.solarSystem;
 
+import ch.fabian.solarSystem.model.SpaceObject;
 import javafx.scene.shape.Shape3D;
 
 public class ViewObject {

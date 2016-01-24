@@ -1,14 +1,15 @@
-package ch.fabian.solarSystem;
+package ch.fabian.solarSystem.model;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class SimulationRunner {
+public class ModelSimulation {
 
     private GravitySimulation gravitySimulation;
 
     private AtomicBoolean stop = new AtomicBoolean(false);
+    private long simulationStep = 0L;
 
-    public SimulationRunner(GravitySimulation gravitySimulation) {
+    public ModelSimulation(GravitySimulation gravitySimulation) {
         this.gravitySimulation = gravitySimulation;
     }
 
@@ -18,10 +19,12 @@ public class SimulationRunner {
 
     public void startSimulation(){
         Runnable simulationRunner = () -> {
-            int i = 0;
             while (!stop.get()) {
                 gravitySimulation.computeNextStep();
-                i++;
+                simulationStep++;
+                if(simulationStep % 100 == 0){
+                    System.out.println("Simulation step " + simulationStep);
+                }
             }
         };
         Thread simulationThread = new Thread(simulationRunner);

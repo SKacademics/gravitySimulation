@@ -1,6 +1,8 @@
 package ch.fabian.solarSystem;
 
-import javafx.animation.AnimationTimer;
+import ch.fabian.solarSystem.model.GravitySimulation;
+import ch.fabian.solarSystem.model.ModelSimulation;
+import ch.fabian.solarSystem.model.SpaceObject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
@@ -9,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape3D;
-import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,10 +24,9 @@ import static java.util.stream.Collectors.toList;
 public class Main extends Application {
 
     private Group simulation3d;
-    private GravitySimulation currentSimulation;
-    private AnimationTimer animationTimer;
     private ControlsController controlsController;
-    private SimulationRunner simulationRunner;
+    private ModelSimulation modelSimulation;
+    private ViewSimulation viewSimulation;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -51,8 +51,8 @@ public class Main extends Application {
     }
 
     private SubScene createContent() {
-        simulationRunner = createSimulation();
-        List<ViewObject> shapes = createShapes(simulationRunner);
+        modelSimulation = createModelSimulation();
+        viewSimulation = new ViewSimulation(modelSimulation);
 
         // Build the Scene Graph
         PointLight pointLight = new PointLight(Color.BEIGE);
@@ -62,77 +62,54 @@ public class Main extends Application {
 
         simulation3d = new Group();
         simulation3d.getChildren().addAll(pointLight);
-        simulation3d.getChildren().addAll(shapes.stream().map(ViewObject::getShape).collect(Collectors.toList()));
+        simulation3d.getChildren().addAll(viewSimulation.getShapes());
         simulation3d.getChildren().addAll(new AxisCreator().buildAxes());
         SubScene simulationScene = new SubScene(simulation3d, 200, 200);
 
         simulationScene.setFill(Color.GREY);
 
-        startSimulation(simulationRunner, shapes);
+        startSimulation();
+
         return simulationScene;
     }
 
-    private void startSimulation(final SimulationRunner simulationRunner, List<ViewObject> shapes) {
-        animationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                System.out.println("Animation frame: " + now);
-                shapes.forEach(s -> {
-                            Shape3D shape = s.getShape();
-                            SpaceObject spaceObject = s.getSpaceObject();
-                            Point3D lastPosition = spaceObject.getLastPosition();
-                            shape.setTranslateX(lastPosition.getX());
-                            shape.setTranslateY(lastPosition.getY());
-                            shape.setTranslateZ(lastPosition.getZ());
-                        }
-                );
-            }
-        };
-        animationTimer.start();
-        simulationRunner.startSimulation();
-    }
-
-    private List<ViewObject> createShapes(SimulationRunner simulationRunner) {
-        List<ViewObject> viewObjects = new ArrayList<>();
-        simulationRunner.getGravitySimulation().getObjects().forEach(o -> {
-                    Shape3D shape = new Sphere(o.getRadius());
-                    Point3D lastPosition = o.getLastPosition();
-                    shape.setTranslateX(lastPosition.getX());
-                    shape.setTranslateY(lastPosition.getY());
-                    shape.setTranslateZ(lastPosition.getZ());
-                    viewObjects.add(new ViewObject(o, shape));
-                }
-        );
-        return viewObjects;
+    private void startSimulation() {
+        modelSimulation.startSimulation();
+        viewSimulation.startViewSimulation();
     }
 
     private Pane buildControls() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("controls.fxml"));
         Pane myPane = loader.load();
         controlsController = loader.getController();
-        controlsController.setCurrentSimulation(currentSimulation);
+        controlsController.setCurrentSimulation(modelSimulation);
         controlsController.addResetListener(this::resetScene);
         return myPane;
     }
 
     private void resetScene() {
-        animationTimer.stop();
-        simulationRunner.stop();
+        stopSimulation();
         simulation3d.getChildren().removeAll(simulation3d.getChildren().stream().filter(c -> c instanceof Shape3D).collect(toList()));
-        simulationRunner = createSimulation();
-        controlsController.setCurrentSimulation(currentSimulation);
 
-        List<ViewObject> shapes = createShapes(simulationRunner);
-        simulation3d.getChildren().addAll(shapes.stream().map(ViewObject::getShape).collect(Collectors.toList()));
-        startSimulation(simulationRunner, shapes);
+        modelSimulation = createModelSimulation();
+        viewSimulation = new ViewSimulation(modelSimulation);
+
+        controlsController.setCurrentSimulation(modelSimulation);
+
+        simulation3d.getChildren().addAll(viewSimulation.getShapes());
+        startSimulation();
     }
 
-    private SimulationRunner createSimulation() {
+    private void stopSimulation() {
+        viewSimulation.stopViewSimulation();
+        modelSimulation.stop();
+    }
+
+    private ModelSimulation createModelSimulation() {
         List<SpaceObject> spaceObjects = createMany();
 //        List<SpaceObject> spaceObjects = create4();
 
-        currentSimulation = new GravitySimulation(spaceObjects);
-        return new SimulationRunner(currentSimulation);
+        return new ModelSimulation(new GravitySimulation(spaceObjects));
     }
 
     private List<SpaceObject> create4() {
