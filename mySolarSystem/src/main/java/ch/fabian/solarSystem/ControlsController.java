@@ -2,6 +2,8 @@ package ch.fabian.solarSystem;
 
 import ch.fabian.solarSystem.model.GravitySimulation;
 import ch.fabian.solarSystem.model.ModelSimulation;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -31,11 +33,11 @@ public class ControlsController {
         }
         GravitySimulation gravitySimulation = currentSimulation.getGravitySimulation();
         this.currentSimulation = currentSimulation;
-        currentTimeStep.setText(formatTimeStepLabel(gravitySimulation.timeStepProperty().getValue()));
-        gravitySimulation.timeStepProperty().addListener((observable, oldValue, newValue) -> {
+        currentTimeStep.setText(formatTimeStepLabel(gravitySimulation.getParameters().getTimeStep()));
+        timeStepSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             currentTimeStep.setText(formatTimeStepLabel(newValue));
+            currentSimulation.setTimeStep(newValue.doubleValue());
         });
-        timeStepSlider.valueProperty().bindBidirectional(gravitySimulation.timeStepProperty());
     }
 
     private String formatTimeStepLabel(Number value) {

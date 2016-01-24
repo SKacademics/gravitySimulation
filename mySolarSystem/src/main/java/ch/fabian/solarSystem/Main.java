@@ -2,6 +2,7 @@ package ch.fabian.solarSystem;
 
 import ch.fabian.solarSystem.model.GravitySimulation;
 import ch.fabian.solarSystem.model.ModelSimulation;
+import ch.fabian.solarSystem.model.SimulationParameters;
 import ch.fabian.solarSystem.model.SpaceObject;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -48,6 +49,12 @@ public class Main extends Application {
         primaryStage.setHeight(800);
         primaryStage.setWidth(1500);
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        modelSimulation.stop();
+        super.stop();
     }
 
     private SubScene createContent() {
@@ -109,7 +116,9 @@ public class Main extends Application {
         List<SpaceObject> spaceObjects = createMany();
 //        List<SpaceObject> spaceObjects = create4();
 
-        return new ModelSimulation(new GravitySimulation(spaceObjects));
+        GravitySimulation gravitySimulation = new GravitySimulation(spaceObjects);
+        gravitySimulation.setSimulationParameters(new SimulationParameters(0.01,true,false));
+        return new ModelSimulation(gravitySimulation);
     }
 
     private List<SpaceObject> create4() {
@@ -134,17 +143,21 @@ public class Main extends Application {
 
     private List<SpaceObject> createMany() {
         List<SpaceObject> spaceObjects = new ArrayList<>();
-        for (int i = -100; i < 100; i += 20) {
-            for (int j = -100; j < 100; j += 20) {
-                for (int k = -100; k < 100; k += 20) {
+        for (int i = -100; i < 100; i += 30) {
+            for (int j = -100; j < 100; j += 30) {
+                for (int k = -100; k < 100; k += 30) {
                     SpaceObject spaceObject1 = new SpaceObject();
                     spaceObject1.setLastPosition(new Point3D(i, j, k));
-                    spaceObject1.setMass(10E7);
+                    spaceObject1.setMass(10E6);
                     spaceObject1.setLastSpeed(new Point3D(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05));
                     spaceObjects.add(spaceObject1);
                 }
             }
         }
+        SpaceObject spaceObject1 = new SpaceObject();
+        spaceObject1.setLastPosition(new Point3D(0, 0, 0));
+        spaceObject1.setMass(10E8);
+        spaceObjects.add(spaceObject1);
         return spaceObjects;
     }
 

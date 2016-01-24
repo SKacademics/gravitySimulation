@@ -44,8 +44,9 @@ public class ViewSimulation {
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                viewObjects.forEach(s -> updateObjectPosition(s)
-                );
+                viewObjects.forEach(s -> updateObjectPosition(s));
+
+
             }
         };
         animationTimer.start();

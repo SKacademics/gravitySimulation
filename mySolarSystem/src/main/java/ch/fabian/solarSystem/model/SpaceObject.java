@@ -6,7 +6,6 @@ public class SpaceObject {
 
     //in kg
     private double mass = 1;
-
     private double radius = 1;
 
     //in m/s
