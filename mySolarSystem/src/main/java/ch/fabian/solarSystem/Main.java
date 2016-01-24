@@ -2,8 +2,7 @@ package ch.fabian.solarSystem;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -14,8 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,13 +39,13 @@ public class Main extends Application {
         CameraCreator cameraCreator = new CameraCreator();
         Camera camera = cameraCreator.createCamera();
         content.setCamera(camera);
-        cameraCreator.handleSceneMouseEvents(scene,camera);
+        cameraCreator.handleSceneMouseEvents(scene, camera);
 
         content.heightProperty().bind(scene.heightProperty());
         content.widthProperty().bind(scene.widthProperty());
         primaryStage.setScene(scene);
         primaryStage.setHeight(800);
-        primaryStage.setWidth(1200);
+        primaryStage.setWidth(1500);
         primaryStage.show();
     }
 
@@ -101,21 +100,15 @@ public class Main extends Application {
         return shapes;
     }
 
-    private Pane buildControls() {
-        VBox vbox = new VBox();
-        vbox.setPrefWidth(300);
-        vbox.setStyle("-fx-background-color: #EEEEEE" );
-        Button button = new Button("Reset");
-        button.setOnMouseClicked(event -> resetScene());
-        Slider slider = new Slider(0.01, 100, 2);
-        Label timeStepLabel = new Label();
-        timeStepLabel.setText(currentSimulation.timeStepProperty().getValue().toString());
-        slider.valueProperty().bindBidirectional(currentSimulation.timeStepProperty());
-        slider.valueProperty().addListener((observable, oldValue, newValue) -> {
-            timeStepLabel.setText(newValue.toString());
-        });
-        vbox.getChildren().addAll(button, slider, timeStepLabel);
-        return vbox;
+    private Pane buildControls() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("controls.fxml"));
+        loader.setLocation(getClass().getResource("controls.fxml"));
+
+        Pane myPane =  loader.load();
+        ControlsController controller = loader.getController();
+        controller.setSimulation(currentSimulation);
+        controller.addResetListener(this::resetScene);
+        return myPane;
     }
 
     private void resetScene() {
@@ -126,12 +119,11 @@ public class Main extends Application {
         simulation3d.getChildren().addAll(shapes);
 
         startSimulation(currentSimulation);
-
     }
 
     private GravitySimulation createSimulation() {
-        List<SpaceObject> spaceObjects = createMany();
-//        List<SpaceObject> spaceObjects = create4();
+//        List<SpaceObject> spaceObjects = createMany();
+        List<SpaceObject> spaceObjects = create4();
 
         return new GravitySimulation(spaceObjects);
     }

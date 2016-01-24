@@ -8,7 +8,7 @@ import javafx.scene.shape.Box;
 public class AxisCreator {
 
     public Group buildAxes() {
-        System.out.println("buildAxes()");
+        System.out.println("Building Axes...()");
         final PhongMaterial redMaterial = createPhongMaterial(Color.DARKRED, Color.RED);
         final PhongMaterial greenMaterial = createPhongMaterial(Color.DARKGREEN, Color.GREEN);
         final PhongMaterial blueMaterial = createPhongMaterial(Color.DARKBLUE, Color.BLUE);
@@ -21,6 +21,7 @@ public class AxisCreator {
         yAxis.setMaterial(greenMaterial);
         zAxis.setMaterial(blueMaterial);
 
+        System.out.println("Building Axes finished");
         return new Group(xAxis,yAxis,zAxis);
     }
 

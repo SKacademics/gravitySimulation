@@ -4,9 +4,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point3D;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -15,8 +13,7 @@ public class GravitySimulation {
 
     private DoubleProperty timeStep = new SimpleDoubleProperty(1);
 
-    private long cycle = 0;
-
+    private long simulationStep = 0;
     static final double GRAVITY_CONSTANT = 6.674*10E-11;
 
     private List<SpaceObject> objects;
@@ -26,7 +23,6 @@ public class GravitySimulation {
     }
 
     void computeNextStep(){
-
         double timeStep = this.timeStep.get();
         for (SpaceObject current : objects) {
             Point3D gravitationalForce = computeGravityVector(current);
@@ -37,9 +33,9 @@ public class GravitySimulation {
             current.setPosition(newPosition);
             current.setLastSpeed(newSpeed);
         }
-        cycle++;
+        simulationStep++;
 
-        System.out.println("Frame: " + cycle);
+        System.out.println("Simulation step: " + simulationStep);
 
         objects.stream().forEach(o -> o.setLastPosition(o.getPosition()));
     }

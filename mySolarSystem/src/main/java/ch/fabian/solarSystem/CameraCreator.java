@@ -1,11 +1,11 @@
 package ch.fabian.solarSystem;
 
-import javafx.event.EventTarget;
-import javafx.scene.*;
-import javafx.scene.transform.Scale;
+import javafx.scene.Camera;
+import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 
 public class CameraCreator {
-
 
     private final Xform cameraXform = new Xform();
     private final Xform cameraXform2 = new Xform();
@@ -86,11 +86,11 @@ public class CameraCreator {
                 cameraXform2.t.setY(cameraXform2.t.getY() + mouseDeltaY * modifierFactor * modifier * 0.3);  // -
             }
         });
-        scene.setOnScroll(e -> {
-            camera.setScaleX(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleX());
-        });
-        scene.setOnScroll(e -> camera.setScaleY(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleY()));
-        scene.setOnScroll(e -> camera.setScaleZ(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleZ()));
+
+        //TODO: fix scroll zooming
+        //scene.setOnScroll(e -> camera.setScaleX(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleX()));
+        //scene.setOnScroll(e -> camera.setScaleY(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleY()));
+        //scene.setOnScroll(e -> camera.setScaleZ(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleZ()));
     }
 
     private void handleKeyboard(Scene scene, Camera camera) {
