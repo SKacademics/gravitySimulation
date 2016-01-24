@@ -1,7 +1,5 @@
 package ch.fabian.solarSystem;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Point3D;
 
 public class SpaceObject {
@@ -15,13 +13,13 @@ public class SpaceObject {
     private Point3D speed = new Point3D(0,0,0);
     private Point3D lastSpeed = new Point3D(0,0,0);
 
-    private DoubleProperty xProperty = new SimpleDoubleProperty();
-    private DoubleProperty yProperty = new SimpleDoubleProperty();
-    private DoubleProperty zProperty = new SimpleDoubleProperty();
+    private double x;
+    private double y;
+    private double z;
 
-    private DoubleProperty lastXProperty = new SimpleDoubleProperty();
-    private DoubleProperty lastYProperty = new SimpleDoubleProperty();
-    private DoubleProperty lastZProperty = new SimpleDoubleProperty();
+    private double lastX;
+    private double lastY;
+    private double lastZ;
 
     public SpaceObject(double radius) {
         this.radius = radius;
@@ -37,23 +35,23 @@ public class SpaceObject {
     }
 
     public Point3D getPosition() {
-        return new Point3D(xProperty.get(),yProperty.get(),zProperty.get());
+        return new Point3D(x, y, z);
     }
 
     public Point3D getLastPosition() {
-        return new Point3D(lastXProperty.get(),lastYProperty.get(),lastZProperty.get());
+        return new Point3D(lastX, lastY, lastZ);
     }
 
     public void setPosition(Point3D inPosition) {
-        xProperty.set(inPosition.getX());
-        yProperty.set(inPosition.getY());
-        zProperty.set(inPosition.getZ());
+        x = inPosition.getX();
+        y = inPosition.getY();
+        z = inPosition.getZ();
     }
 
     public void setLastPosition(Point3D inLastPosition) {
-        lastXProperty.set(inLastPosition.getX());
-        lastYProperty.set(inLastPosition.getY());
-        lastZProperty.set(inLastPosition.getZ());
+        lastX = inLastPosition.getX();
+        lastY = inLastPosition.getY();
+        lastZ = inLastPosition.getZ();
     }
 
     public double getMass() {
@@ -66,54 +64,6 @@ public class SpaceObject {
 
     public void setMass(double inMass) {
         mass = inMass;
-    }
-
-    public double getXProperty() {
-        return xProperty.get();
-    }
-
-    public DoubleProperty xPropertyProperty() {
-        return xProperty;
-    }
-
-    public double getyProperty() {
-        return yProperty.get();
-    }
-
-    public DoubleProperty yPropertyProperty() {
-        return yProperty;
-    }
-
-    public double getzProperty() {
-        return zProperty.get();
-    }
-
-    public DoubleProperty zPropertyProperty() {
-        return zProperty;
-    }
-
-    public double getLastXProperty() {
-        return lastXProperty.get();
-    }
-
-    public DoubleProperty lastXPropertyProperty() {
-        return lastXProperty;
-    }
-
-    public double getLastYProperty() {
-        return lastYProperty.get();
-    }
-
-    public DoubleProperty lastYPropertyProperty() {
-        return lastYProperty;
-    }
-
-    public double getLastZProperty() {
-        return lastZProperty.get();
-    }
-
-    public DoubleProperty lastZPropertyProperty() {
-        return lastZProperty;
     }
 
     public Point3D getLastSpeed() {

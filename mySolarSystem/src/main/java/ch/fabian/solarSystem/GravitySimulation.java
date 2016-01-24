@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 
 public class GravitySimulation {
 
-    private DoubleProperty timeStep = new SimpleDoubleProperty(1);
+    private DoubleProperty timeStep = new SimpleDoubleProperty(0.01);
 
     private long simulationStep = 0;
     static final double GRAVITY_CONSTANT = 6.674*10E-11;
