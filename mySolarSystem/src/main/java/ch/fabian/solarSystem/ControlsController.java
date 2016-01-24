@@ -25,11 +25,15 @@ public class ControlsController {
 
     public void setSimulation(GravitySimulation simulation) {
         this.simulation = simulation;
-        currentTimeStep.setText(simulation.timeStepProperty().toString() + " s");
+        currentTimeStep.setText(formatTimeStepLabel(simulation.timeStepProperty().getValue()));
         simulation.timeStepProperty().addListener((observable, oldValue, newValue) -> {
-            currentTimeStep.setText(newValue.toString() +" s");
+            currentTimeStep.setText(formatTimeStepLabel(newValue));
         });
         timeStepSlider.valueProperty().bindBidirectional(simulation.timeStepProperty());
+    }
+
+    private String formatTimeStepLabel(Number value) {
+        return String.format("%.02f",value.doubleValue()) + " s";
     }
 
     public void resetButtonAction(){
