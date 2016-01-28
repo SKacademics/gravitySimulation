@@ -1,8 +1,10 @@
 package ch.fabian.solarSystem.view;
 
 import ch.fabian.solarSystem.IResetListener;
+import ch.fabian.solarSystem.SimulationController;
 import ch.fabian.solarSystem.model.GravitySimulation;
 import ch.fabian.solarSystem.model.ModelSimulation;
+import ch.fabian.solarSystem.model.SimulationParameters;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -31,26 +33,25 @@ public class ControlsController {
 
     public ControlsController() {
         resetListeners = new ArrayList<>();
-
     }
 
-    public void setCurrentSimulation(ModelSimulation currentSimulation, ViewSimulation viewSimulation) {
+    public void setCurrentSimulation(SimulationController controller) {
         if(this.currentSimulation != null){
             timeStepSlider.valueProperty().unbind();
         }
+        this.currentSimulation = controller.getModelSimulation();
         GravitySimulation gravitySimulation = currentSimulation.getGravitySimulation();
         double timeStep = gravitySimulation.getParameters().getTimeStep();
         timeStepSlider.setValue(timeStep);
         timeStepSlider.setMax(1);
         timeStepSlider.setMin(0);
         timeStepSlider.setMajorTickUnit(0.01);
-        this.currentSimulation = currentSimulation;
         currentTimeStep.setText(formatTimeStepLabel(timeStep));
         timeStepSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             currentTimeStep.setText(formatTimeStepLabel(newValue));
             currentSimulation.setTimeStep(newValue.doubleValue());
         });
-        viewSimulation.fpsProperty().addListener((observable, oldValue, newValue) -> {
+        controller.getViewSimulation().fpsProperty().addListener((observable, oldValue, newValue) -> {
             animationFPSLabel.setText(formatTimeStepLabel(newValue) + " FPS");
             simulationStepsLabel.setText(formatSimulationSteps(computeSimulationStepsPerSecond(currentSimulation.getSimulationStepCount())));
         });
@@ -84,8 +85,11 @@ public class ControlsController {
         resetListeners.forEach(IResetListener::reset);
     }
 
-
     public void addResetListener(IResetListener listener) {
         resetListeners.add(listener);
+    }
+
+    public void updateParams(SimulationParameters newParameters) {
+        timeStepSlider.setValue(newParameters.getTimeStep());
     }
 }

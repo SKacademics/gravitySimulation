@@ -33,8 +33,6 @@ public class GravitySimulation {
         objects.stream().forEach(o -> o.setLastPosition(o.getPosition()));
     }
 
-
-
     Point3D computeGravityVector(SpaceObject current) {
         List<Point3D> forces = objects.stream().filter(other -> current != other).map(other -> {
             double force = computeGravityBetweenBodies(current, other);
@@ -65,5 +63,9 @@ public class GravitySimulation {
 
     public void setSimulationParameters(SimulationParameters newParameters) {
         parameters = newParameters;
+    }
+
+    public void setNewObjects(List<SpaceObject> objects){
+        this.objects = objects;
     }
 }

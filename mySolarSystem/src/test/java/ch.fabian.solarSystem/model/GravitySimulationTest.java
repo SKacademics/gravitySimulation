@@ -56,7 +56,8 @@ public class GravitySimulationTest {
     public void testGravitationalVector3() throws Exception {
         SpaceObject spaceObject1 = createObject(0, 0, 0, 1);
         SpaceObject spaceObject2 = createObject(0.3, 0.3, 0.3, 1);
-        Point3D forceVector = new GravitySimulation(Arrays.asList(spaceObject1,spaceObject2)).computeGravityVector(spaceObject1);
+        GravitySimulation gravitySimulation = new GravitySimulation(Arrays.asList(spaceObject1, spaceObject2));
+        Point3D forceVector = gravitySimulation.computeGravityVector(spaceObject1);
 
         assertThat(forceVector.getX(), is(1.4271243320635414E-9));
         assertThat(forceVector.getY(), is(1.4271243320635414E-9));

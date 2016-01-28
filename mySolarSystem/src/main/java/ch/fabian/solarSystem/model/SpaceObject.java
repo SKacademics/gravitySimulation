@@ -79,4 +79,5 @@ public class SpaceObject {
     public void setLastSpeed(Point3D inLastSpeed) {
         lastSpeed = inLastSpeed;
     }
+
 }

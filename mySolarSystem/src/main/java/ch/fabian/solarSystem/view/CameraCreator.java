@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem;
+package ch.fabian.solarSystem.view;
 
 import ch.fabian.solarSystem.view.Xform;
 import javafx.scene.Camera;
@@ -25,13 +25,13 @@ public class CameraCreator {
     private double mouseDeltaX;
     private double mouseDeltaY;
 
-    Camera createCamera() {
+    public Camera createCamera() {
         Camera camera = new PerspectiveCamera(true);
         configureNavigation(camera);
         return camera;
     }
 
-    void handleSceneMouseEvents(Scene scene, Camera camera) {
+    public void handleSceneMouseEvents(Scene scene, Camera camera) {
         handleKeyboard(scene, camera);
         handleMouse(scene, camera);
     }
