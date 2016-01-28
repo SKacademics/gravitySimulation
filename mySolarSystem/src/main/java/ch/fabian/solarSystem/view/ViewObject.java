@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem;
+package ch.fabian.solarSystem.view;
 
 import ch.fabian.solarSystem.model.SpaceObject;
 import javafx.scene.shape.Shape3D;

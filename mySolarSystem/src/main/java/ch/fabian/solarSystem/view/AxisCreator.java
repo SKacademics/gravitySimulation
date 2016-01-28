@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem;
+package ch.fabian.solarSystem.view;
 
 import javafx.scene.Group;
 import javafx.scene.Node;

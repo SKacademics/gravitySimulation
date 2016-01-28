@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem;
+package ch.fabian.solarSystem.view;
 
 
 import ch.fabian.solarSystem.model.ModelSimulation;
@@ -43,7 +43,7 @@ public class ViewSimulation {
         return viewObjects;
     }
 
-    List<Shape3D> getShapes() {
+    public List<Shape3D> getShapes() {
         return viewObjects.stream().map(ViewObject::getShape).collect(Collectors.toList());
     }
 

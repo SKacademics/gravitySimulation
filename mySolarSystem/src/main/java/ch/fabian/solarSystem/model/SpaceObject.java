@@ -30,7 +30,6 @@ public class SpaceObject {
     }
 
     public SpaceObject() {
-
     }
 
     public Point3D getPosition() {

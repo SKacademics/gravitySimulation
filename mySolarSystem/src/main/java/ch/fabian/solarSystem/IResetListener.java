@@ -1,5 +1,5 @@
 package ch.fabian.solarSystem;
 
-interface IResetListener {
+public interface IResetListener {
     void reset();
 }

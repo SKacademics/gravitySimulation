@@ -1,5 +1,6 @@
-package ch.fabian.solarSystem;
+package ch.fabian.solarSystem.view;
 
+import ch.fabian.solarSystem.IResetListener;
 import ch.fabian.solarSystem.model.GravitySimulation;
 import ch.fabian.solarSystem.model.ModelSimulation;
 import javafx.fxml.FXML;

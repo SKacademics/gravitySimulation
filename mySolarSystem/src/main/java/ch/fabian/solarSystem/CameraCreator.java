@@ -1,5 +1,6 @@
 package ch.fabian.solarSystem;
 
+import ch.fabian.solarSystem.view.Xform;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;

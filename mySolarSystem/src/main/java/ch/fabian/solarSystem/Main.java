@@ -4,6 +4,9 @@ import ch.fabian.solarSystem.model.GravitySimulation;
 import ch.fabian.solarSystem.model.ModelSimulation;
 import ch.fabian.solarSystem.model.SimulationParameters;
 import ch.fabian.solarSystem.model.SpaceObject;
+import ch.fabian.solarSystem.view.AxisCreator;
+import ch.fabian.solarSystem.view.ControlsController;
+import ch.fabian.solarSystem.view.ViewSimulation;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
@@ -18,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
