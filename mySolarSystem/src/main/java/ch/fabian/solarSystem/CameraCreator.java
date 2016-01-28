@@ -7,14 +7,15 @@ import javafx.scene.Scene;
 
 public class CameraCreator {
 
+    private static final int ZOOM_MULTIPLIER = 10;
+    private static final double CAMERA_DISTANCE = 150;
+    private static final double ALT_MULTIPLIER = 0.5;
+    private static final double SHIFT_MULTIPLIER = 0.2;
+    private static final double CONTROL_MULTIPLIER = 0.2;
+
     private final Xform cameraXform = new Xform();
     private final Xform cameraXform2 = new Xform();
     private final Xform cameraXform3 = new Xform();
-    private final static  double CAMERA_DISTANCE = 70;
-
-    private double CONTROL_MULTIPLIER = 0.2;
-    private double SHIFT_MULTIPLIER = 0.2;
-    private double ALT_MULTIPLIER = 0.5;
 
     private double mousePosX;
     private double mousePosY;
@@ -29,9 +30,9 @@ public class CameraCreator {
         return camera;
     }
 
-    void handleSceneMouseEvents(Scene scene, Camera camera){
+    void handleSceneMouseEvents(Scene scene, Camera camera) {
         handleKeyboard(scene, camera);
-        handleMouse(scene,camera);
+        handleMouse(scene, camera);
     }
 
 
@@ -86,11 +87,9 @@ public class CameraCreator {
                 cameraXform2.t.setY(cameraXform2.t.getY() + mouseDeltaY * modifierFactor * modifier * 0.3);  // -
             }
         });
-
-        //TODO: fix scroll zooming
-        //scene.setOnScroll(e -> camera.setScaleX(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleX()));
-        //scene.setOnScroll(e -> camera.setScaleY(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleY()));
-        //scene.setOnScroll(e -> camera.setScaleZ(Math.signum(e.getDeltaX()) * 1.01 * camera.getScaleZ()));
+        scene.setOnScroll(e -> camera.setTranslateX(Math.signum(e.getDeltaX()) * ZOOM_MULTIPLIER + camera.getTranslateX()));
+        scene.setOnScroll(e -> camera.setTranslateY(Math.signum(e.getDeltaX()) * ZOOM_MULTIPLIER + camera.getTranslateY()));
+        scene.setOnScroll(e -> camera.setTranslateZ(Math.signum(e.getDeltaX()) * ZOOM_MULTIPLIER + camera.getTranslateZ()));
     }
 
     private void handleKeyboard(Scene scene, Camera camera) {
