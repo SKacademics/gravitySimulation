@@ -47,7 +47,7 @@ public class GravitySimulation {
 
     double computeGravityBetweenBodies(SpaceObject inBody1, SpaceObject inBody2) {
         double distance = inBody1.getLastPosition().distance(inBody2.getLastPosition());
-        if(distance < 1 && parameters.isWeakenCollisions()){
+        if(distance < 1 && true){
             return 0;
         }
         double mass1 = inBody1.getMass();

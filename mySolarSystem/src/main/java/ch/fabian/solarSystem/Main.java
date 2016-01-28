@@ -89,7 +89,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("controls.fxml"));
         Pane myPane = loader.load();
         controlsController = loader.getController();
-        controlsController.setCurrentSimulation(modelSimulation);
+        controlsController.setCurrentSimulation(modelSimulation, viewSimulation);
         controlsController.addResetListener(this::resetScene);
         return myPane;
     }
@@ -101,7 +101,7 @@ public class Main extends Application {
         modelSimulation = createModelSimulation();
         viewSimulation = new ViewSimulation(modelSimulation);
 
-        controlsController.setCurrentSimulation(modelSimulation);
+        controlsController.setCurrentSimulation(modelSimulation, viewSimulation);
 
         simulation3d.getChildren().addAll(viewSimulation.getShapes());
         startSimulation();
@@ -114,21 +114,21 @@ public class Main extends Application {
 
     private ModelSimulation createModelSimulation() {
         List<SpaceObject> spaceObjects = createMany();
-//        List<SpaceObject> spaceObjects = create4();
+        //List<SpaceObject> spaceObjects = create4();
 
         GravitySimulation gravitySimulation = new GravitySimulation(spaceObjects);
-        gravitySimulation.setSimulationParameters(new SimulationParameters(0.01,true,false));
+        gravitySimulation.setSimulationParameters(new SimulationParameters(0.01, true, false));
         return new ModelSimulation(gravitySimulation);
     }
 
     private List<SpaceObject> create4() {
-        SpaceObject object1 = createObject(-5, -5, 0, 500000);
+        SpaceObject object1 = createObject(-5, -5, 0, 5000);
         object1.setLastSpeed(new Point3D(0.01, 0, 0.01));
-        SpaceObject object2 = createObject(5, -5, 0, 50000);
+        SpaceObject object2 = createObject(5, -5, 0, 5000);
         object2.setLastSpeed(new Point3D(0.01, 0.01, 0));
         SpaceObject object3 = createObject(0, 0, 0, 5000000);
         object3.setLastSpeed(new Point3D(0, 0, 0));
-        SpaceObject object4 = createObject(5, 5, 0, 50000);
+        SpaceObject object4 = createObject(5, 5, 0, 5000);
         object4.setLastSpeed(new Point3D(0.02, -0.015, 0.015));
         return Arrays.asList(object1, object2, object3, object4);
     }
@@ -143,22 +143,30 @@ public class Main extends Application {
 
     private List<SpaceObject> createMany() {
         List<SpaceObject> spaceObjects = new ArrayList<>();
-        for (int i = -100; i < 100; i += 30) {
-            for (int j = -100; j < 100; j += 30) {
-                for (int k = -100; k < 100; k += 30) {
+        for (int i = -100; i <= 100; i += 40) {
+            for (int j = -100; j <= 100; j += 40) {
+                for (int k = -100; k <= 100; k += 40) {
                     SpaceObject spaceObject1 = new SpaceObject();
                     spaceObject1.setLastPosition(new Point3D(i, j, k));
-                    spaceObject1.setMass(10E6);
+                    spaceObject1.setMass(10E7);
                     spaceObject1.setLastSpeed(new Point3D(Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05, Math.random() * 0.1 - 0.05));
                     spaceObjects.add(spaceObject1);
                 }
             }
         }
-        SpaceObject spaceObject1 = new SpaceObject();
-        spaceObject1.setLastPosition(new Point3D(0, 0, 0));
-        spaceObject1.setMass(10E8);
+        SpaceObject spaceObject1 = createObject(new Point3D(50, 0, -50), 10E9, new Point3D(0.1, 0.0,-0.1));
+        SpaceObject spaceObject2 = createObject(new Point3D(-50, -0.1, 50), 10E9, new Point3D(0.1, 0.0, 0.1));
         spaceObjects.add(spaceObject1);
+        spaceObjects.add(spaceObject2);
         return spaceObjects;
+    }
+
+    private SpaceObject createObject(Point3D inLastPosition, double inMass, Point3D inLastSpeed) {
+        SpaceObject spaceObject1 = new SpaceObject();
+        spaceObject1.setLastPosition(inLastPosition);
+        spaceObject1.setMass(inMass);
+        spaceObject1.setLastSpeed(inLastSpeed);
+        return spaceObject1;
     }
 
     public static void main(String[] args) {
