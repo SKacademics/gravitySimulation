@@ -22,9 +22,10 @@ public class ModelFactory {
 
     public List<SpaceObject> createManyObjects() {
         List<SpaceObject> spaceObjects = new ArrayList<>();
-        for (int i = -100; i <= 100; i += 40) {
-            for (int j = -100; j <= 100; j += 40) {
-                for (int k = -100; k <= 100; k += 40) {
+        int range = 100;
+        for (int i = -range; i <= range; i += 40) {
+            for (int j = -range; j <= range; j += 40) {
+                for (int k = -range; k <= range; k += 40) {
                     SpaceObject spaceObject1 = new SpaceObject();
                     spaceObject1.setLastPosition(new Point3D(i, j, k));
                     spaceObject1.setMass(10E7);
@@ -33,10 +34,12 @@ public class ModelFactory {
                 }
             }
         }
-        SpaceObject spaceObject1 = createObject(new Point3D(50, 0, -50), 10E9, new Point3D(0.1, 0.0,-0.1));
-        SpaceObject spaceObject2 = createObject(new Point3D(-50, -0.1, 50), 10E9, new Point3D(0.1, 0.0, 0.1));
+        SpaceObject spaceObject1 = createObject(new Point3D(50, 0, -50), 10E9, new Point3D(0.2, 0.175,-0.12),3);
+        SpaceObject spaceObject2 = createObject(new Point3D(-50, -0.1, 50), 10E9, new Point3D(-0.3, -0.2, 0.13),3);
+        SpaceObject spaceObject3 = createObject(new Point3D(50, -0.1, 50), 10E8, new Point3D(-0.15, 0.2, 0.13),2);
         spaceObjects.add(spaceObject1);
         spaceObjects.add(spaceObject2);
+        spaceObjects.add(spaceObject3);
         return spaceObjects;
     }
 
@@ -49,7 +52,11 @@ public class ModelFactory {
     }
 
     private SpaceObject createObject(Point3D inLastPosition, double inMass, Point3D inLastSpeed) {
-        SpaceObject spaceObject1 = new SpaceObject();
+        return createObject(inLastPosition, inMass, inLastSpeed, 1);
+    }
+
+    private SpaceObject createObject(Point3D inLastPosition, double inMass, Point3D inLastSpeed, int radius) {
+        SpaceObject spaceObject1 = new SpaceObject(radius);
         spaceObject1.setLastPosition(inLastPosition);
         spaceObject1.setMass(inMass);
         spaceObject1.setLastSpeed(inLastSpeed);

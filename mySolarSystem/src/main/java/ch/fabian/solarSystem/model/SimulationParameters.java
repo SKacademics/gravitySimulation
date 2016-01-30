@@ -8,7 +8,7 @@ public class SimulationParameters {
     private final boolean mergeObjects;
 
     public SimulationParameters(double timeStep) {
-        this(timeStep, false, false);
+        this(timeStep, true, false);
     }
 
     public SimulationParameters(double timeStep, boolean weakenCollisions, boolean mergeObjects) {

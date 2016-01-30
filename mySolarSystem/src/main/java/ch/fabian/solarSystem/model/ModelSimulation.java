@@ -35,7 +35,7 @@ public class ModelSimulation {
                 }
                 gravitySimulation.computeNextStep();
                 long simulationStep = this.simulationStepCount.incrementAndGet();
-                if (simulationStep % 100 == 0) {
+                if (simulationStep % 1000 == 0) {
                     System.out.println("Simulation step " + simulationStep);
                 }
             }
