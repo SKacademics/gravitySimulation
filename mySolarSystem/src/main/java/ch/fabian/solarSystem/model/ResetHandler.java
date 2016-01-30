@@ -1,18 +1,17 @@
 package ch.fabian.solarSystem.model;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 public class ResetHandler {
 
     private SimulationParameters simulationParameters;
-    private List<SpaceObject> initalObjects;
+    private List<SpaceObject> initialObjects;
 
     public void init(ModelSimulation modelSimulation) {
         simulationParameters = modelSimulation.getCurrentParameters().copy();
-        initalObjects = modelSimulation.getGravitySimulation().getObjects().stream().map(this::createCopy).collect(toList());
+        initialObjects = modelSimulation.getGravitySimulation().getObjects().stream().map(this::createCopy).collect(toList());
     }
 
     public SimulationParameters getInitialSimulationParameters() {
@@ -20,7 +19,7 @@ public class ResetHandler {
     }
 
     public List<SpaceObject> getInitialObjects() {
-        return initalObjects;
+        return initialObjects;
     }
 
     private SpaceObject createCopy(SpaceObject spaceObject){
