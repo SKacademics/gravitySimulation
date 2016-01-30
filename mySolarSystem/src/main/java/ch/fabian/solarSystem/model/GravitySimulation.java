@@ -2,7 +2,9 @@ package ch.fabian.solarSystem.model;
 
 import javafx.geometry.Point3D;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -10,18 +12,20 @@ import static java.util.stream.Collectors.toList;
 public class GravitySimulation {
 
     static final double GRAVITY_CONSTANT = 6.674*10E-11;
+    public static final int SINGLE_THREAD_OBJECT_LIMIT = 150;
 
     private List<SpaceObject> objects;
     private SimulationParameters parameters;
 
-    public GravitySimulation(List<SpaceObject> inObjects) {
+    public GravitySimulation(List<SpaceObject> inObjects, SimulationParameters inParameters) {
         objects = inObjects;
+        parameters = inParameters.copy();
     }
 
     void computeNextStep(){
         SimulationParameters paramsForStep = parameters;
         double currentTimeStep = paramsForStep.getTimeStep();
-        for (SpaceObject current : objects) {
+        getStream().forEach(current -> {
             Point3D gravitationalForce = computeGravityVector(current);
             //v2 = a * (dt) + v1
             Point3D newSpeed = gravitationalForce.multiply(currentTimeStep).add(current.getLastSpeed());
@@ -29,8 +33,16 @@ public class GravitySimulation {
             Point3D newPosition = current.getLastPosition().add(distance);
             current.setPosition(newPosition);
             current.setLastSpeed(newSpeed);
+        });
+        getStream().forEach(o -> o.setLastPosition(o.getPosition()));
+    }
+
+    private Stream<SpaceObject> getStream() {
+        if(objects.size() > SINGLE_THREAD_OBJECT_LIMIT){
+            return objects.parallelStream();
+        } else {
+            return objects.stream();
         }
-        objects.stream().forEach(o -> o.setLastPosition(o.getPosition()));
     }
 
     Point3D computeGravityVector(SpaceObject current) {
@@ -45,7 +57,8 @@ public class GravitySimulation {
 
     double computeGravityBetweenBodies(SpaceObject inBody1, SpaceObject inBody2) {
         double distance = inBody1.getLastPosition().distance(inBody2.getLastPosition());
-        if(distance < 1 && true){
+        double collisionDistance = inBody1.getRadius() + inBody2.getRadius();
+        if(distance < collisionDistance && parameters.isWeakenCollisions()){
             return 0;
         }
         double mass1 = inBody1.getMass();
