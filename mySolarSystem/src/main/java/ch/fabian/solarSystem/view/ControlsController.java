@@ -53,9 +53,14 @@ public class ControlsController {
         });
         controller.getViewSimulation().fpsProperty().addListener((observable, oldValue, newValue) -> {
             animationFPSLabel.setText(formatTimeStepLabel(newValue) + " FPS");
-            simulationStepsLabel.setText(formatSimulationSteps(computeSimulationStepsPerSecond(currentSimulation.getSimulationStepCount())));
+            if(changeCount % 10 == 0){
+                simulationStepsLabel.setText(formatSimulationSteps(computeSimulationStepsPerSecond(currentSimulation.getSimulationStepCount())));
+            }
+            changeCount++;
         });
     }
+
+    private long changeCount = 0;
 
     private double computeSimulationStepsPerSecond(long stepCount) {
         long currentTime = System.nanoTime();
