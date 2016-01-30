@@ -1,6 +1,5 @@
 package ch.fabian.solarSystem.view;
 
-import ch.fabian.solarSystem.IResetListener;
 import ch.fabian.solarSystem.SimulationController;
 import ch.fabian.solarSystem.model.ModelSimulation;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +9,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class ViewBuilder {
 
@@ -59,16 +60,22 @@ public class ViewBuilder {
     private Group createViewRoot() {
         Group simulation3d = new Group();
         simulation3d.getChildren().addAll(new AxisCreator().buildAxes());
-        simulation3d.getChildren().addAll(createLight());
+        simulation3d.getChildren().addAll(createLights());
         return simulation3d;
     }
 
-    private PointLight createLight() {
-        PointLight pointLight = new PointLight(Color.BEIGE);
-        pointLight.setTranslateY(50);
-        pointLight.setTranslateZ(50);
-        pointLight.setTranslateX(50);
-        return pointLight;
+    private List<PointLight> createLights() {
+        PointLight light1 = createPointLight(Color.BEIGE, 500, 500, 500);
+        PointLight light2 = createPointLight(Color.BLANCHEDALMOND, -500, -500, -500);
+        return Arrays.asList(light1, light2);
+    }
+
+    private PointLight createPointLight(Color color, int x, int z, int y) {
+        PointLight light1 = new PointLight(color);
+        light1.setTranslateX(x);
+        light1.setTranslateY(y);
+        light1.setTranslateZ(z);
+        return light1;
     }
 
     private ViewSimulation createViewSimulation(ModelSimulation modelSimulation, Group parent) {
