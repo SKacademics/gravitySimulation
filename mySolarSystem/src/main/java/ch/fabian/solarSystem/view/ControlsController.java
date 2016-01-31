@@ -5,9 +5,14 @@ import ch.fabian.solarSystem.SimulationController;
 import ch.fabian.solarSystem.model.GravitySimulation;
 import ch.fabian.solarSystem.model.ModelSimulation;
 import ch.fabian.solarSystem.model.SimulationParameters;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -19,15 +24,20 @@ public class ControlsController {
 
     @FXML
     private Label currentTimeStep;
-
     @FXML
     private Slider timeStepSlider;
-
     @FXML
     private Label animationFPSLabel;
-
     @FXML
     private Label simulationStepsLabel;
+    @FXML
+    private TextField maximumTimeStepField;
+    @FXML
+    private CheckBox weakCollisionsCheckBox;
+    @FXML
+    private CheckBox mergeObjectsCheckBox;
+    @FXML
+    private Label objectCountLabel;
 
     private ModelSimulation currentSimulation;
 
@@ -36,14 +46,18 @@ public class ControlsController {
     }
 
     public void setCurrentSimulation(SimulationController controller) {
-        if(this.currentSimulation != null){
+        if (this.currentSimulation != null) {
             timeStepSlider.valueProperty().unbind();
         }
         this.currentSimulation = controller.getModelSimulation();
         GravitySimulation gravitySimulation = currentSimulation.getGravitySimulation();
         double timeStep = gravitySimulation.getParameters().getTimeStep();
         timeStepSlider.setValue(timeStep);
-        timeStepSlider.setMax(1);
+        mergeObjectsCheckBox.selectedProperty().setValue(currentSimulation.getCurrentParameters().isMergeObjects());
+        weakCollisionsCheckBox.selectedProperty().setValue(currentSimulation.getCurrentParameters().isWeakenCollisions());
+
+        StringConverter<Number> numberStringConverter = new NumberStringConverter();
+        Bindings.bindBidirectional(maximumTimeStepField.textProperty(), timeStepSlider.maxProperty(), numberStringConverter);
         timeStepSlider.setMin(0);
         timeStepSlider.setMajorTickUnit(0.01);
         currentTimeStep.setText(formatTimeStepLabel(timeStep));
@@ -51,11 +65,23 @@ public class ControlsController {
             currentTimeStep.setText(formatTimeStepLabel(newValue));
             currentSimulation.setTimeStep(newValue.doubleValue());
         });
+        mergeObjectsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            SimulationParameters currentParameters = currentSimulation.getCurrentParameters();
+            currentParameters.setMergeObjects(newValue);
+            currentSimulation.setSimulationParameters(currentParameters);
+        });
+
+        weakCollisionsCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            SimulationParameters currentParameters = currentSimulation.getCurrentParameters();
+            currentParameters.setWeakenCollisions(newValue);
+            currentSimulation.setSimulationParameters(currentParameters);
+        });
         controller.getViewSimulation().fpsProperty().addListener((observable, oldValue, newValue) -> {
             animationFPSLabel.setText(formatTimeStepLabel(newValue) + " FPS");
-            if(changeCount % 10 == 0){
+            if (changeCount % 10 == 0) {
                 simulationStepsLabel.setText(formatSimulationSteps(computeSimulationStepsPerSecond(currentSimulation.getSimulationStepCount())));
             }
+            objectCountLabel.setText(String.valueOf(currentSimulation.getObjectCount()));
             changeCount++;
         });
     }
@@ -67,11 +93,14 @@ public class ControlsController {
         long stepDifference = stepCount - lastStepCount;
         long timeDifferenceNs = currentTime - lastStepTimeStamp;
         double stepsPerSecond = ((double) stepDifference / timeDifferenceNs) * 1_000_000_000;
+        double weightedStepsPerSecond = 0.9 * lastStepsPersSecond + 0.1 * stepsPerSecond;
         lastStepTimeStamp = currentTime;
         lastStepCount = stepCount;
-        return stepsPerSecond;
+        lastStepsPersSecond = weightedStepsPerSecond;
+        return weightedStepsPerSecond;
     }
 
+    private double lastStepsPersSecond;
     private long lastStepCount;
     private long lastStepTimeStamp;
 
@@ -83,11 +112,12 @@ public class ControlsController {
     }
 
     private String formatTimeStepLabel(Number value) {
-        return String.format("%.02f",value.doubleValue()) + " s";
+        return String.format("%.02f", value.doubleValue()) + " s";
     }
 
-    public void resetButtonAction(){
+    public void resetButtonAction() {
         resetListeners.forEach(IResetListener::reset);
+        lastStepCount = 0;
     }
 
     public void addResetListener(IResetListener listener) {
@@ -96,5 +126,7 @@ public class ControlsController {
 
     public void updateParams(SimulationParameters newParameters) {
         timeStepSlider.setValue(newParameters.getTimeStep());
+        weakCollisionsCheckBox.selectedProperty().setValue(newParameters.isWeakenCollisions());
+        mergeObjectsCheckBox.selectedProperty().setValue(newParameters.isMergeObjects());
     }
 }

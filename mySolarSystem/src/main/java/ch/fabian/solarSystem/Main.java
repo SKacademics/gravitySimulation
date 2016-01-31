@@ -49,7 +49,7 @@ public class Main extends Application {
         List<SpaceObject> spaceObjects = new ModelFactory().createManyObjects();
         //List<SpaceObject> spaceObjects = new ModelFactory().create4Objects();
 
-        SimulationParameters parameters = new SimulationParameters(0.01, true, false);
+        SimulationParameters parameters = new SimulationParameters(0.01, true, true);
         GravitySimulation gravitySimulation = new GravitySimulation(spaceObjects, parameters);
         gravitySimulation.setSimulationParameters(parameters);
         return new ModelSimulation(gravitySimulation);

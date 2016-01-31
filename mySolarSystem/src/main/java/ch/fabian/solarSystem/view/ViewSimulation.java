@@ -6,14 +6,22 @@ import ch.fabian.solarSystem.model.SpaceObject;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Box;
 import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.Sphere;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -61,6 +69,14 @@ public class ViewSimulation {
         animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                List<ViewObject> removedObjects = viewObjects.stream()
+                                                .filter(viewObject -> viewObject.getSpaceObject().isRemoved())
+                                                .collect(Collectors.toList());
+                viewObjects.removeAll(removedObjects);
+                removedObjects.forEach(toRemove -> {
+                    viewObjects.remove(toRemove);
+                    simulationViewParent.getChildren().remove(toRemove.getShape());
+                });
                 viewObjects.forEach(s -> updateObjectPosition(s));
                 updateAnimationFPS(now);
             }
@@ -92,6 +108,8 @@ public class ViewSimulation {
 
     private void updateObjectPosition(ViewObject s) {
         Shape3D shape = s.getShape();
+        Sphere shape1 = (Sphere) shape;
+        shape1.setRadius(s.getSpaceObject().getRadius());
         SpaceObject spaceObject = s.getSpaceObject();
         Point3D lastPosition = spaceObject.getLastPosition();
         shape.setTranslateX(lastPosition.getX());
