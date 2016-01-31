@@ -20,6 +20,8 @@ public class SpaceObject {
     private double lastY;
     private double lastZ;
 
+    private boolean removed = false;
+
     public SpaceObject(double radius) {
         this.radius = radius;
     }
@@ -80,4 +82,19 @@ public class SpaceObject {
         lastSpeed = inLastSpeed;
     }
 
+    public double getVolume() {
+        return 4.0 / 3.0 * Math.PI * radius * radius * radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
+    }
 }

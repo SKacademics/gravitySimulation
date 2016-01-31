@@ -30,9 +30,7 @@ public class ModelSimulation {
         simulationStepCount.set(0);
         Runnable simulationRunner = () -> {
             while (!stop.get()) {
-                synchronized (this) {
-                    gravitySimulation.setSimulationParameters(getCurrentParameters());
-                }
+                updateParametersIfNecessary();
                 gravitySimulation.computeNextStep();
                 long simulationStep = this.simulationStepCount.incrementAndGet();
                 if (simulationStep % 1000 == 0) {
@@ -43,6 +41,14 @@ public class ModelSimulation {
         };
         new Thread(simulationRunner).start();
 
+    }
+
+    private void updateParametersIfNecessary() {
+        synchronized (this) {
+            if(parametersChanged.get()){
+                gravitySimulation.setSimulationParameters(getCurrentParameters());
+            }
+        }
     }
 
     public long getSimulationStepCount() {
@@ -65,6 +71,7 @@ public class ModelSimulation {
     }
 
     public void setSimulationParameters(SimulationParameters simulationParameters) {
+        parametersChanged.set(true);
         synchronized (this) {
             currentParameters = simulationParameters.copy();
         }
@@ -73,7 +80,7 @@ public class ModelSimulation {
     public void setTimeStep(double newTimeStep) {
         parametersChanged.set(true);
         synchronized (this) {
-            currentParameters = new SimulationParameters(newTimeStep, currentParameters.isWeakenCollisions(), false);
+            currentParameters.setTimeStep(newTimeStep);
         }
     }
 
@@ -82,5 +89,11 @@ public class ModelSimulation {
             return;
         }
         gravitySimulation.setNewObjects(initalObjects);
+    }
+
+    public int getObjectCount() {
+        synchronized (this){
+            return gravitySimulation.getObjects().size();
+        }
     }
 }
