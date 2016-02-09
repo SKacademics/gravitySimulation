@@ -3,21 +3,10 @@ package ch.fabian.solarSystem;
 import ch.fabian.solarSystem.model.*;
 import ch.fabian.solarSystem.view.*;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point3D;
 import javafx.scene.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape3D;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 public class Main extends Application {
 
@@ -48,6 +37,8 @@ public class Main extends Application {
     private ModelSimulation createModelSimulation() {
         List<SpaceObject> spaceObjects = new ModelFactory().createManyObjects();
         //List<SpaceObject> spaceObjects = new ModelFactory().create4Objects();
+        //List<SpaceObject> spaceObjects = new ModelFactory().create2Colliding();
+        //List<SpaceObject> spaceObjects = new ModelFactory().create2NonColliding();
 
         SimulationParameters parameters = new SimulationParameters(0.01, true, true);
         GravitySimulation gravitySimulation = new GravitySimulation(spaceObjects, parameters);

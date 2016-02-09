@@ -8,6 +8,20 @@ import java.util.List;
 
 public class ModelFactory {
 
+    public List<SpaceObject> create2Colliding(){
+        SpaceObject o1 = createObject(100,0,0,100);
+        o1.setLastSpeed(new Point3D(-0.02,0,0));
+        SpaceObject o2 = createObject(0,0,0,1000);
+        return Arrays.asList(o1, o2);
+    }
+
+    public List<SpaceObject> create2NonColliding(){
+        SpaceObject o1 = createObject(100,0,0,1000);
+        o1.setLastSpeed(new Point3D(-0.002,0.001,0));
+        SpaceObject o2 = createObject(0,0,0, 1000000);
+        return Arrays.asList(o1, o2);
+    }
+
     public List<SpaceObject> create4Objects() {
         SpaceObject object1 = createObject(-50, -50, 0, 5000);
         object1.setLastSpeed(new Point3D(0.005, 0, 0.001));
