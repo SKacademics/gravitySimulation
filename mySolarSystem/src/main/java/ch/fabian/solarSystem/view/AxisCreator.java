@@ -17,9 +17,9 @@ public class AxisCreator {
         final PhongMaterial greenMaterial = createPhongMaterial(Color.DARKGREEN, Color.GREEN);
         final PhongMaterial blueMaterial = createPhongMaterial(Color.DARKBLUE, Color.BLUE);
 
-        final Box xAxis = new Box(240.0, 0.1, 0.1);
-        final Box yAxis = new Box(0.1, 240.0, 0.1);
-        final Box zAxis = new Box(0.1, 0.1, 240.0);
+        final Box xAxis = new Box(250.0, 0.1, 0.1);
+        final Box yAxis = new Box(0.1, 250.0, 0.1);
+        final Box zAxis = new Box(0.1, 0.1, 250.0);
 
         xAxis.setMaterial(redMaterial);
         yAxis.setMaterial(greenMaterial);
