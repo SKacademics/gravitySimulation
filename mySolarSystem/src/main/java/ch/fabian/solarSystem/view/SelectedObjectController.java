@@ -2,15 +2,17 @@ package ch.fabian.solarSystem.view;
 
 import ch.fabian.solarSystem.model.SpaceObject;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Point3D;
-import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.shape.Shape3D;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SelectedObjectController implements ObjectSelectionListener {
 
@@ -36,7 +38,9 @@ public class SelectedObjectController implements ObjectSelectionListener {
     private TitledPane selectedObjectPane;
 
     private ViewObject currentSelection;
-    private ChangeListener<Number> currentListener;
+    private ChangeListener<Number> positionListener;
+
+    private List<FollowListener> followListenerList = new ArrayList<>();
 
 
     private String createPositionString(Shape3D obj) {
@@ -71,7 +75,14 @@ public class SelectedObjectController implements ObjectSelectionListener {
                 massLabel.setText(String.format("%G",spaceObject.getMass()) + " kg");
                 radiusLabel.setText(String.format("%.2f",spaceObject.getRadius()) + " m");
             };
-            currentListener = shapeListener;
+            followCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                if(newValue){
+                    followListenerList.forEach(l -> l.followWithCamera(selectedObject));
+                } else {
+                    followListenerList.forEach(l -> l.followWithCamera(null));
+                }
+            });
+            positionListener = shapeListener;
             selectedShape.translateXProperty().addListener(shapeListener);
             selectedShape.translateYProperty().addListener(shapeListener);
             selectedShape.translateZProperty().addListener(shapeListener);
@@ -85,9 +96,13 @@ public class SelectedObjectController implements ObjectSelectionListener {
     private void removeListenerFromPrevious() {
         if (currentSelection != null) {
             Shape3D currentShape = currentSelection.getShape();
-            currentShape.translateXProperty().removeListener(currentListener);
-            currentShape.translateYProperty().removeListener(currentListener);
-            currentShape.translateZProperty().removeListener(currentListener);
+            currentShape.translateXProperty().removeListener(positionListener);
+            currentShape.translateYProperty().removeListener(positionListener);
+            currentShape.translateZProperty().removeListener(positionListener);
         }
+    }
+
+    public void addFollowListener(FollowListener listener) {
+        followListenerList.add(listener);
     }
 }
