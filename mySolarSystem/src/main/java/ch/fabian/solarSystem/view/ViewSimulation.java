@@ -36,6 +36,8 @@ public class ViewSimulation {
     private long frameCount;
     private double frameTimeAvg;
 
+    private List<ObjectSelectionListener> selectionListeners = new ArrayList<>();
+
     public ViewSimulation(ModelSimulation modelSimulation, Group simulationViewParent) {
         this.simulationViewParent = simulationViewParent;
         viewObjects = createShapes(modelSimulation);
@@ -50,11 +52,27 @@ public class ViewSimulation {
                     shape.setTranslateX(lastPosition.getX());
                     shape.setTranslateY(lastPosition.getY());
                     shape.setTranslateZ(lastPosition.getZ());
-                    viewObjects.add(new ViewObject(o, shape));
+                    ViewObject viewObject = new ViewObject(o, shape);
+                    shape.setOnMouseClicked(event -> handleSelection(viewObject));
+                    viewObjects.add(viewObject);
                 }
         );
         return viewObjects;
     }
+
+    private void handleSelection(ViewObject viewObject) {
+        //reset all other selection
+        viewObjects.stream().filter(vo -> vo != viewObject).map(ViewObject::getShape).forEach(s -> s.setMaterial(null));
+        Shape3D selectedShape = viewObject.getShape();
+        if (selectedShape.getMaterial() == null) {
+            selectedShape.setMaterial(new PhongMaterial(Color.AQUAMARINE));
+            selectionListeners.forEach(l -> l.objectSelected(viewObject));
+        } else {
+            selectedShape.setMaterial(null);
+            selectionListeners.forEach(l -> l.objectSelected(null));
+        }
+    }
+
 
     private List<Shape3D> getShapes(List<ViewObject> viewObjects) {
         return viewObjects.stream().map(ViewObject::getShape).collect(toList());
@@ -70,8 +88,8 @@ public class ViewSimulation {
             @Override
             public void handle(long now) {
                 List<ViewObject> removedObjects = viewObjects.stream()
-                                                .filter(viewObject -> viewObject.getSpaceObject().isRemoved())
-                                                .collect(Collectors.toList());
+                        .filter(viewObject -> viewObject.getSpaceObject().isRemoved())
+                        .collect(Collectors.toList());
                 viewObjects.removeAll(removedObjects);
                 removedObjects.forEach(toRemove -> {
                     viewObjects.remove(toRemove);
@@ -121,5 +139,9 @@ public class ViewSimulation {
         removeAllObjects();
         viewObjects = createShapes(modelSimulation);
         simulationViewParent.getChildren().addAll(getShapes(viewObjects));
+    }
+
+    public void addSelectionListener(ObjectSelectionListener selectionListener) {
+        selectionListeners.add(selectionListener);
     }
 }
