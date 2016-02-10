@@ -10,12 +10,11 @@ import java.util.List;
 
 public class Main extends Application {
 
-
     private SimulationController simulationController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        primaryStage.setTitle("Gravity Simulation");
         ModelSimulation modelSimulation = createModelSimulation();
 
         simulationController = new SimulationController(modelSimulation);
