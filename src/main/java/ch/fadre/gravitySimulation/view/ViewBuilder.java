@@ -7,7 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
 import javafx.scene.*;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -23,27 +25,27 @@ public class ViewBuilder implements FollowListener{
     private Camera camera;
     private Point3D positionBefore;
     private ChangeListener<Number> positionListener;
+    private CameraController cameraController;
 
     public Scene createScene(ModelSimulation modelSimulation, SimulationController controller) throws IOException {
         Group viewRoot = createViewRoot();
         ViewSimulation viewSimulation = createViewSimulation(modelSimulation,viewRoot);
         controller.setViewSimulation(viewSimulation);
+        HBox hBox = new HBox();
+        Scene scene = new Scene(hBox);
+        SubScene simulationScene = createSubSceneContent(viewRoot, scene);
 
-        SubScene simulationScene = createSubSceneContent(viewRoot);
         Pane simulationPane = new Pane(simulationScene);
         Pane controls = buildControls(controller);
-        controls.setFocusTraversable(false);
         TitledPane selectedObjectPane = buildSelectedObjectPane(controller, viewSimulation);
 
-        HBox hBox = new HBox();
+
         StackPane stackPane = new StackPane(simulationPane, selectedObjectPane);
         stackPane.setAlignment(Pos.BOTTOM_RIGHT);
         hBox.getChildren().addAll(controls, stackPane);
 
-        Scene scene = new Scene(hBox);
         simulationScene.heightProperty().bind(scene.heightProperty());
         simulationScene.widthProperty().bind(scene.widthProperty());
-
         return scene;
     }
 
@@ -67,13 +69,13 @@ public class ViewBuilder implements FollowListener{
         return myPane;
     }
 
-    private SubScene createSubSceneContent(Group simulation3d) {
+    private SubScene createSubSceneContent(Group simulation3d, Scene scene) {
         // Build the Scene Graph
         SubScene simulationScene = new SubScene(simulation3d, 200, 200, true, SceneAntialiasing.BALANCED);
         simulationScene.setFill(Color.DARKGRAY);
-        CameraController cameraController = new CameraController();
+        cameraController = new CameraController();
         camera = cameraController.createCamera();
-        cameraController.handleSceneMouseEvents(simulationScene, camera);
+        cameraController.handleSceneEvents(scene, camera);
         simulationScene.setCamera(camera);
         return simulationScene;
     }
