@@ -1,9 +1,9 @@
-package ch.fabian.solarSystem;
+package ch.fabian.gravitySimulation;
 
-import ch.fabian.solarSystem.model.ModelSimulation;
-import ch.fabian.solarSystem.model.ResetHandler;
-import ch.fabian.solarSystem.model.SimulationParameters;
-import ch.fabian.solarSystem.view.ViewSimulation;
+import ch.fabian.gravitySimulation.model.ModelSimulation;
+import ch.fabian.gravitySimulation.model.ResetHandler;
+import ch.fabian.gravitySimulation.model.SimulationParameters;
+import ch.fabian.gravitySimulation.view.ViewSimulation;
 
 import java.util.ArrayList;
 import java.util.List;

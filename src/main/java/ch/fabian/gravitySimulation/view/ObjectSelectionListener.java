@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem.view;
+package ch.fabian.gravitySimulation.view;
 
 public interface ObjectSelectionListener {
 

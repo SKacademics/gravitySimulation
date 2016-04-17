@@ -1,7 +1,7 @@
-package ch.fabian.solarSystem.view;
+package ch.fabian.gravitySimulation.view;
 
-import ch.fabian.solarSystem.SimulationController;
-import ch.fabian.solarSystem.model.ModelSimulation;
+import ch.fabian.gravitySimulation.SimulationController;
+import ch.fabian.gravitySimulation.model.ModelSimulation;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;

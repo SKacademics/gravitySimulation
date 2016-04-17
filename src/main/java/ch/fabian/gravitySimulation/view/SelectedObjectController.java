@@ -1,8 +1,7 @@
-package ch.fabian.solarSystem.view;
+package ch.fabian.gravitySimulation.view;
 
-import ch.fabian.solarSystem.model.SpaceObject;
+import ch.fabian.gravitySimulation.model.SpaceObject;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Point3D;
 import javafx.scene.control.CheckBox;

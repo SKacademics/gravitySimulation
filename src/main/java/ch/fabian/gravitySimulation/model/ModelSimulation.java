@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem.model;
+package ch.fabian.gravitySimulation.model;
 
 import java.math.BigDecimal;
 import java.util.List;

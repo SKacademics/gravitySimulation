@@ -1,6 +1,6 @@
-package ch.fabian.solarSystem.view;
+package ch.fabian.gravitySimulation.view;
 
-import ch.fabian.solarSystem.model.SpaceObject;
+import ch.fabian.gravitySimulation.model.SpaceObject;
 import javafx.scene.shape.Shape3D;
 
 public class ViewObject {

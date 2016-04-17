@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem.view;
+package ch.fabian.gravitySimulation.view;
 
 import javafx.scene.Camera;
 import javafx.scene.Group;

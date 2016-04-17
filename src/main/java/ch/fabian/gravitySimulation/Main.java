@@ -1,7 +1,7 @@
-package ch.fabian.solarSystem;
+package ch.fabian.gravitySimulation;
 
-import ch.fabian.solarSystem.model.*;
-import ch.fabian.solarSystem.view.*;
+import ch.fabian.gravitySimulation.model.*;
+import ch.fabian.gravitySimulation.view.*;
 import javafx.application.Application;
 import javafx.scene.*;
 import javafx.stage.Stage;

@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem;
+package ch.fabian.gravitySimulation;
 
 public interface IResetListener {
     void reset();

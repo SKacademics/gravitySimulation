@@ -1,8 +1,7 @@
-package ch.fabian.solarSystem.model;
+package ch.fabian.gravitySimulation.model;
 
 import javafx.geometry.Point3D;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;

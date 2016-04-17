@@ -1,10 +1,10 @@
-package ch.fabian.solarSystem.view;
+package ch.fabian.gravitySimulation.view;
 
-import ch.fabian.solarSystem.IResetListener;
-import ch.fabian.solarSystem.SimulationController;
-import ch.fabian.solarSystem.model.GravitySimulation;
-import ch.fabian.solarSystem.model.ModelSimulation;
-import ch.fabian.solarSystem.model.SimulationParameters;
+import ch.fabian.gravitySimulation.IResetListener;
+import ch.fabian.gravitySimulation.SimulationController;
+import ch.fabian.gravitySimulation.model.GravitySimulation;
+import ch.fabian.gravitySimulation.model.ModelSimulation;
+import ch.fabian.gravitySimulation.model.SimulationParameters;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;

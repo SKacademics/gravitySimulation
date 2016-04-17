@@ -1,4 +1,4 @@
-package ch.fabian.solarSystem.model;
+package ch.fabian.gravitySimulation.model;
 
 
 public class SimulationParameters {

@@ -1,6 +1,6 @@
-package ch.fabian.solarSystem;
+package ch.fabian.gravitySimulation;
 
-import ch.fabian.solarSystem.model.SimulationParameters;
+import ch.fabian.gravitySimulation.model.SimulationParameters;
 
 public interface ParameterListener {
 

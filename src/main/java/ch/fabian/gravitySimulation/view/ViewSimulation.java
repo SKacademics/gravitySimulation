@@ -1,21 +1,16 @@
-package ch.fabian.solarSystem.view;
+package ch.fabian.gravitySimulation.view;
 
 
-import ch.fabian.solarSystem.model.ModelSimulation;
-import ch.fabian.solarSystem.model.SpaceObject;
+import ch.fabian.gravitySimulation.model.ModelSimulation;
+import ch.fabian.gravitySimulation.model.SpaceObject;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.Sphere;
 
