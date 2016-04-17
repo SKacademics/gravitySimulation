@@ -31,6 +31,8 @@ public class ControlsController {
     @FXML
     private Label simulationStepsLabel;
     @FXML
+    private Label simulatedTimeLabel;
+    @FXML
     private TextField maximumTimeStepField;
     @FXML
     private CheckBox weakCollisionsCheckBox;
@@ -82,6 +84,7 @@ public class ControlsController {
                 simulationStepsLabel.setText(formatSimulationSteps(computeSimulationStepsPerSecond(currentSimulation.getSimulationStepCount())));
             }
             objectCountLabel.setText(String.valueOf(currentSimulation.getObjectCount()));
+            simulatedTimeLabel.setText(String.format("%.2f", currentSimulation.getSimulatedTime().doubleValue()) + " s");
             changeCount++;
         });
     }

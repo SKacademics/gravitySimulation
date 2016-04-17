@@ -2,6 +2,7 @@ package ch.fabian.solarSystem.model;
 
 import javafx.geometry.Point3D;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;

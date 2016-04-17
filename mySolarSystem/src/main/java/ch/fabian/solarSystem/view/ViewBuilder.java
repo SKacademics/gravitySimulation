@@ -48,7 +48,7 @@ public class ViewBuilder implements FollowListener{
     }
 
     private Pane buildControls(SimulationController controller) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("controls.fxml"));
+        FXMLLoader loader = new FXMLLoader(ViewBuilder.class.getResource("controls.fxml"));
         Pane myPane = loader.load();
         ControlsController controlsController = loader.getController();
         controlsController.setCurrentSimulation(controller);

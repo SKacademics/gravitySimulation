@@ -1,5 +1,6 @@
 package ch.fabian.solarSystem.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -13,6 +14,8 @@ public class ModelSimulation {
     private AtomicBoolean parametersChanged = new AtomicBoolean(false);
 
     private AtomicLong simulationStepCount = new AtomicLong();
+    private BigDecimal simulatedTime = BigDecimal.ZERO;
+
     private SimulationParameters currentParameters;
 
     public ModelSimulation(GravitySimulation gravitySimulation) {
@@ -31,6 +34,7 @@ public class ModelSimulation {
         Runnable simulationRunner = () -> {
             while (!stop.get()) {
                 updateParametersIfNecessary();
+                simulatedTime = simulatedTime.add(BigDecimal.valueOf(currentParameters.getTimeStep()));
                 gravitySimulation.computeNextStep();
                 long simulationStep = this.simulationStepCount.incrementAndGet();
                 if (simulationStep % 1000 == 0) {
@@ -43,10 +47,18 @@ public class ModelSimulation {
 
     }
 
+    public BigDecimal getSimulatedTime() {
+        synchronized (this) {
+            return simulatedTime;
+        }
+    }
+
     private void updateParametersIfNecessary() {
         synchronized (this) {
             if(parametersChanged.get()){
-                gravitySimulation.setSimulationParameters(getCurrentParameters());
+                SimulationParameters currentParameters = getCurrentParameters();
+
+                gravitySimulation.setSimulationParameters(currentParameters);
             }
         }
     }
