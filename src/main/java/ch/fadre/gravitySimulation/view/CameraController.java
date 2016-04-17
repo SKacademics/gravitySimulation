@@ -1,16 +1,14 @@
 package ch.fadre.gravitySimulation.view;
 
-import javafx.scene.Camera;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.SubScene;
+import javafx.scene.*;
+import javafx.scene.input.KeyEvent;
 
-public class CameraController {
+class CameraController {
 
     private static final int ZOOM_MULTIPLIER = 10;
     private static final double CAMERA_DISTANCE = 150;
     private static final double ALT_MULTIPLIER = 0.5;
-    private static final double SHIFT_MULTIPLIER = 0.2;
+    private static final double SHIFT_MULTIPLIER = 10;
     private static final double CONTROL_MULTIPLIER = 0.2;
 
     private final Xform cameraXform = new Xform();
@@ -24,17 +22,16 @@ public class CameraController {
     private double mouseDeltaX;
     private double mouseDeltaY;
 
-    public Camera createCamera() {
+    Camera createCamera() {
         Camera camera = new PerspectiveCamera(true);
         configureNavigation(camera);
         return camera;
     }
 
-    public void handleSceneMouseEvents(SubScene scene, Camera camera) {
+    void handleSceneEvents(Scene scene, Camera camera) {
         handleKeyboard(scene, camera);
         handleMouse(scene, camera);
     }
-
 
     private Group configureNavigation(Camera inCamera) {
         cameraXform.getChildren().add(cameraXform2);
@@ -51,7 +48,7 @@ public class CameraController {
         return cameraXform;
     }
 
-    private void handleMouse(SubScene scene, Camera camera) {
+    private void handleMouse(Scene scene, Camera camera) {
         scene.setOnMousePressed(me -> {
             mousePosX = me.getSceneX();
             mousePosY = me.getSceneY();
@@ -92,62 +89,71 @@ public class CameraController {
         scene.setOnScroll(e -> camera.setTranslateZ(Math.signum(e.getDeltaX()) * ZOOM_MULTIPLIER + camera.getTranslateZ()));
     }
 
-    private void handleKeyboard(SubScene scene, Camera camera) {
+    private void handleKeyboard(Scene scene, Camera camera) {
         scene.setOnKeyPressed(event -> {
             switch (event.getCode()) {
                 case UP:
-                    if (event.isControlDown() && event.isShiftDown()) {
-                        cameraXform2.t.setY(cameraXform2.t.getY() - 10.0 * CONTROL_MULTIPLIER);
-                    } else if (event.isAltDown() && event.isShiftDown()) {
-                        cameraXform.rotateX.setAngle(cameraXform.rotateX.getAngle() - 10.0 * ALT_MULTIPLIER);
-                    } else if (event.isControlDown()) {
-                        cameraXform2.t.setY(cameraXform2.t.getY() - 1.0 * CONTROL_MULTIPLIER);
-                    } else if (event.isAltDown()) {
-                        cameraXform.rotateX.setAngle(cameraXform.rotateX.getAngle() - 2.0 * ALT_MULTIPLIER);
-                    } else if (event.isShiftDown()) {
-                        double z = camera.getTranslateZ();
-                        double newZ = z + 5.0 * SHIFT_MULTIPLIER;
-                        camera.setTranslateZ(newZ);
+                case W:
+                    if (event.isAltDown()) {
+                        rotateX(event, true);
+                    } else {
+                        moveZ(event, camera, true);
                     }
                     break;
                 case DOWN:
-                    if (event.isControlDown() && event.isShiftDown()) {
-                        cameraXform2.t.setY(cameraXform2.t.getY() + 10.0 * CONTROL_MULTIPLIER);
-                    } else if (event.isAltDown() && event.isShiftDown()) {
-                        cameraXform.rotateX.setAngle(cameraXform.rotateX.getAngle() + 10.0 * ALT_MULTIPLIER);
-                    } else if (event.isControlDown()) {
-                        cameraXform2.t.setY(cameraXform2.t.getY() + 1.0 * CONTROL_MULTIPLIER);
-                    } else if (event.isAltDown()) {
-                        cameraXform.rotateX.setAngle(cameraXform.rotateX.getAngle() + 2.0 * ALT_MULTIPLIER);
-                    } else if (event.isShiftDown()) {
-                        double z = camera.getTranslateZ();
-                        double newZ = z - 5.0 * SHIFT_MULTIPLIER;
-                        camera.setTranslateZ(newZ);
+                case S:
+                    if (event.isAltDown()) {
+                        rotateX(event, false);
+                    } else {
+                        moveZ(event, camera, false);
                     }
                     break;
                 case RIGHT:
-                    if (event.isControlDown() && event.isShiftDown()) {
-                        cameraXform2.t.setX(cameraXform2.t.getX() + 10.0 * CONTROL_MULTIPLIER);
-                    } else if (event.isAltDown() && event.isShiftDown()) {
-                        cameraXform.rotateY.setAngle(cameraXform.rotateY.getAngle() - 10.0 * ALT_MULTIPLIER);
-                    } else if (event.isControlDown()) {
-                        cameraXform2.t.setX(cameraXform2.t.getX() + 1.0 * CONTROL_MULTIPLIER);
-                    } else if (event.isAltDown()) {
-                        cameraXform.rotateY.setAngle(cameraXform.rotateY.getAngle() - 2.0 * ALT_MULTIPLIER);
+                case D:
+                    if (event.isAltDown()) {
+                        rotateY(event, true);
+                    } else {
+                        moveX(event, false);
                     }
                     break;
                 case LEFT:
-                    if (event.isControlDown() && event.isShiftDown()) {
-                        cameraXform2.t.setX(cameraXform2.t.getX() - 10.0 * CONTROL_MULTIPLIER);
-                    } else if (event.isAltDown() && event.isShiftDown()) {
-                        cameraXform.rotateY.setAngle(cameraXform.rotateY.getAngle() + 10.0 * ALT_MULTIPLIER);  // -
-                    } else if (event.isControlDown()) {
-                        cameraXform2.t.setX(cameraXform2.t.getX() - 1.0 * CONTROL_MULTIPLIER);
-                    } else if (event.isAltDown()) {
-                        cameraXform.rotateY.setAngle(cameraXform.rotateY.getAngle() + 2.0 * ALT_MULTIPLIER);  // -
+                case A:
+                    if (event.isAltDown()) {
+                        rotateY(event, false);
+                    } else {
+                        moveX(event, true);
                     }
                     break;
             }
         });
+    }
+
+    private void moveX(KeyEvent event, boolean positive) {
+        cameraXform2.t.setX(cameraXform2.t.getX() + getShiftMultitplier(event, positive));
+    }
+
+    private void moveZ(KeyEvent event, Camera camera, boolean positive) {
+        if (event.isControlDown()) {
+            cameraXform2.t.setY(cameraXform2.t.getY() + getShiftMultitplier(event, positive));
+        } else {
+            camera.setTranslateZ(camera.getTranslateZ() + getShiftMultitplier(event, positive));
+        }
+
+    }
+
+    private void rotateX(KeyEvent event, boolean positive) {
+        cameraXform.rotateX.setAngle(cameraXform.rotateX.getAngle() + getShiftMultitplier(event, positive));
+    }
+
+    private void rotateY(KeyEvent event, boolean positive) {
+        cameraXform.rotateY.setAngle(cameraXform.rotateY.getAngle() + getShiftMultitplier(event, positive));
+    }
+
+    private double getShiftMultitplier(KeyEvent event, boolean positive) {
+        double sign = positive ? 1.0 : -1.0;
+        if (event.isShiftDown()) {
+            return SHIFT_MULTIPLIER * sign;
+        }
+        return sign;
     }
 }
