@@ -1,11 +1,11 @@
-group 'ch.fabian.SolarSystem'
+group 'ch.fadre.gravitySimulation'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'idea'
 
-mainClassName = "ch.fabian.solarSystem.Main"
+mainClassName = "ch.fadre.gravitySimulation.Main"
 
 repositories {
     mavenCentral()
