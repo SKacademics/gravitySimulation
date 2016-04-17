@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TitledPane fx:id="selectedObjectPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.77" prefHeight="218.0" prefWidth="361.0" rotate="-9.5" style="-fx-border-radius: 500;" text="Selected Object" textAlignment="RIGHT" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fabian.gravitySimulation.view.SelectedObjectController">
+<TitledPane fx:id="selectedObjectPane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.77" prefHeight="218.0" prefWidth="361.0" rotate="-9.5" style="-fx-border-radius: 500;" text="Selected Object" textAlignment="RIGHT" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fadre.gravitySimulation.view.SelectedObjectController">
    <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" opacity="0.77" prefHeight="197.0" prefWidth="359.0" style="-fx-background-color: #E3EE88; fx-border-ra: 50;">
          <children>

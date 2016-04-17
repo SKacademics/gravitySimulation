@@ -1,6 +1,6 @@
-package ch.fabian.gravitySimulation.view;
+package ch.fadre.gravitySimulation.view;
 
-import ch.fabian.gravitySimulation.model.SpaceObject;
+import ch.fadre.gravitySimulation.model.SpaceObject;
 import javafx.scene.shape.Shape3D;
 
 public class ViewObject {

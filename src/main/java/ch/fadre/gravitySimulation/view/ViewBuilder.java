@@ -1,7 +1,7 @@
-package ch.fabian.gravitySimulation.view;
+package ch.fadre.gravitySimulation.view;
 
-import ch.fabian.gravitySimulation.SimulationController;
-import ch.fabian.gravitySimulation.model.ModelSimulation;
+import ch.fadre.gravitySimulation.SimulationController;
+import ch.fadre.gravitySimulation.model.ModelSimulation;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;

@@ -1,8 +1,8 @@
-package ch.fabian.gravitySimulation.view;
+package ch.fadre.gravitySimulation.view;
 
 
-import ch.fabian.gravitySimulation.model.ModelSimulation;
-import ch.fabian.gravitySimulation.model.SpaceObject;
+import ch.fadre.gravitySimulation.model.ModelSimulation;
+import ch.fadre.gravitySimulation.model.SpaceObject;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

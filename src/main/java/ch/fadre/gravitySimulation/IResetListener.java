@@ -1,4 +1,4 @@
-package ch.fabian.gravitySimulation;
+package ch.fadre.gravitySimulation;
 
 public interface IResetListener {
     void reset();

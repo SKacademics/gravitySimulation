@@ -1,4 +1,4 @@
-package ch.fabian.gravitySimulation.view;
+package ch.fadre.gravitySimulation.view;
 
 public interface FollowListener {
 

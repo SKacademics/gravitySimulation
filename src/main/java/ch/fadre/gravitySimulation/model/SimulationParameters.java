@@ -1,4 +1,4 @@
-package ch.fabian.gravitySimulation.model;
+package ch.fadre.gravitySimulation.model;
 
 
 public class SimulationParameters {

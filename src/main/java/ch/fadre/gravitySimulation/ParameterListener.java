@@ -1,6 +1,6 @@
-package ch.fabian.gravitySimulation;
+package ch.fadre.gravitySimulation;
 
-import ch.fabian.gravitySimulation.model.SimulationParameters;
+import ch.fadre.gravitySimulation.model.SimulationParameters;
 
 public interface ParameterListener {
 

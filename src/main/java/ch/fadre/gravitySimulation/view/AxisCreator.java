@@ -1,4 +1,4 @@
-package ch.fabian.gravitySimulation.view;
+package ch.fadre.gravitySimulation.view;
 
 import javafx.scene.Group;
 import javafx.scene.Node;

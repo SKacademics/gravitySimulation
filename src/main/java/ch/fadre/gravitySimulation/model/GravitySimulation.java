@@ -1,4 +1,4 @@
-package ch.fabian.gravitySimulation.model;
+package ch.fadre.gravitySimulation.model;
 
 import javafx.geometry.Point3D;
 

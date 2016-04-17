@@ -1,9 +1,9 @@
-package ch.fabian.gravitySimulation;
+package ch.fadre.gravitySimulation;
 
-import ch.fabian.gravitySimulation.model.ModelSimulation;
-import ch.fabian.gravitySimulation.model.ResetHandler;
-import ch.fabian.gravitySimulation.model.SimulationParameters;
-import ch.fabian.gravitySimulation.view.ViewSimulation;
+import ch.fadre.gravitySimulation.model.ModelSimulation;
+import ch.fadre.gravitySimulation.model.ResetHandler;
+import ch.fadre.gravitySimulation.model.SimulationParameters;
+import ch.fadre.gravitySimulation.view.ViewSimulation;
 
 import java.util.ArrayList;
 import java.util.List;

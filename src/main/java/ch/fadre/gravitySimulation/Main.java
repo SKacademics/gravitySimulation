@@ -1,7 +1,7 @@
-package ch.fabian.gravitySimulation;
+package ch.fadre.gravitySimulation;
 
-import ch.fabian.gravitySimulation.model.*;
-import ch.fabian.gravitySimulation.view.*;
+import ch.fadre.gravitySimulation.model.*;
+import ch.fadre.gravitySimulation.view.*;
 import javafx.application.Application;
 import javafx.scene.*;
 import javafx.stage.Stage;

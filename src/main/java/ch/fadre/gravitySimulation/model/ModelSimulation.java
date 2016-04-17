@@ -1,4 +1,4 @@
-package ch.fabian.gravitySimulation.model;
+package ch.fadre.gravitySimulation.model;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -1,10 +1,10 @@
-package ch.fabian.gravitySimulation.view;
+package ch.fadre.gravitySimulation.view;
 
-import ch.fabian.gravitySimulation.IResetListener;
-import ch.fabian.gravitySimulation.SimulationController;
-import ch.fabian.gravitySimulation.model.GravitySimulation;
-import ch.fabian.gravitySimulation.model.ModelSimulation;
-import ch.fabian.gravitySimulation.model.SimulationParameters;
+import ch.fadre.gravitySimulation.IResetListener;
+import ch.fadre.gravitySimulation.SimulationController;
+import ch.fadre.gravitySimulation.model.GravitySimulation;
+import ch.fadre.gravitySimulation.model.ModelSimulation;
+import ch.fadre.gravitySimulation.model.SimulationParameters;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;

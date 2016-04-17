@@ -1,6 +1,6 @@
-package ch.fabian.gravitySimulation.view;
+package ch.fadre.gravitySimulation.view;
 
-import ch.fabian.gravitySimulation.model.SpaceObject;
+import ch.fadre.gravitySimulation.model.SpaceObject;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Point3D;
