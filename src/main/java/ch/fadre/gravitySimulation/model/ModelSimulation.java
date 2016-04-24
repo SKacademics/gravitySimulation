@@ -1,6 +1,7 @@
 package ch.fadre.gravitySimulation.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -15,6 +16,8 @@ public class ModelSimulation {
 
     private AtomicLong simulationStepCount = new AtomicLong();
     private BigDecimal simulatedTime = BigDecimal.ZERO;
+
+    private List<SpaceObject> newObjects = new ArrayList<>();
 
     private SimulationParameters currentParameters;
 
@@ -44,7 +47,10 @@ public class ModelSimulation {
             simulationRunning.set(false);
         };
         new Thread(simulationRunner).start();
+    }
 
+    public void addObject(SpaceObject newObject){
+        newObjects.add(newObject);
     }
 
     public BigDecimal getSimulatedTime() {
@@ -55,10 +61,11 @@ public class ModelSimulation {
 
     private void updateParametersIfNecessary() {
         synchronized (this) {
-            if(parametersChanged.get()){
+            if(parametersChanged.get() || !newObjects.isEmpty()){
                 SimulationParameters currentParameters = getCurrentParameters();
-
                 gravitySimulation.setSimulationParameters(currentParameters);
+                newObjects.forEach(o -> gravitySimulation.addObject(o));
+                newObjects.clear();
             }
         }
     }
@@ -96,11 +103,11 @@ public class ModelSimulation {
         }
     }
 
-    public void setNewObjects(List<SpaceObject> initalObjects) {
+    public void setNewObjects(List<SpaceObject> initialObjects) {
         if (simulationRunning.get()) {
             return;
         }
-        gravitySimulation.setNewObjects(initalObjects);
+        gravitySimulation.setNewObjects(initialObjects);
     }
 
     public int getObjectCount() {
