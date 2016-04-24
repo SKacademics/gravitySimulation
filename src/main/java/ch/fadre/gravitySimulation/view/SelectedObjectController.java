@@ -78,7 +78,7 @@ public class SelectedObjectController implements ObjectSelectionListener {
                 if(newValue){
                     followListenerList.forEach(l -> l.followWithCamera(selectedObject));
                 } else {
-                    followListenerList.forEach(l -> l.followWithCamera(null));
+                    followListenerList.forEach(FollowListener::unFollow);
                 }
             });
             positionListener = shapeListener;

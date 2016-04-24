@@ -1,9 +1,14 @@
 package ch.fadre.gravitySimulation.view;
 
-import javafx.scene.*;
+import javafx.beans.value.ChangeListener;
+import javafx.scene.Camera;
+import javafx.scene.Group;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Shape3D;
 
-class CameraController {
+class CameraController implements FollowListener {
 
     private static final int ZOOM_MULTIPLIER = 10;
     private static final double CAMERA_DISTANCE = 150;
@@ -20,6 +25,10 @@ class CameraController {
     private double mouseDeltaX;
     private double mouseDeltaY;
     private Camera camera;
+
+    private ChangeListener<Number> currentListener;
+    private Shape3D currentShape;
+
 
     Camera createCamera() {
         camera = new PerspectiveCamera(true);
@@ -45,6 +54,9 @@ class CameraController {
     }
 
     private void setInitialPosition(Camera inCamera) {
+        cameraXform.t.setX(0.0);
+        cameraXform.t.setY(0.0);
+        cameraXform.t.setZ(0.0);
         cameraXform.rotateX.setAngle(40);
         cameraXform.rotateY.setAngle(320.0);
         cameraXform3.setRotateZ(180.0);
@@ -162,5 +174,32 @@ class CameraController {
 
     public void resetCamera() {
         setInitialPosition(camera);
+    }
+
+    @Override
+    public void followWithCamera(ViewObject viewObject) {
+        if (viewObject != null) {
+            currentShape = viewObject.getShape();
+
+            currentListener = createListener(currentShape);
+            currentShape.translateXProperty().addListener(currentListener);
+            currentShape.translateYProperty().addListener(currentListener);
+            currentShape.translateZProperty().addListener(currentListener);
+        }
+    }
+
+    @Override
+    public void unFollow() {
+        currentShape.translateXProperty().removeListener(currentListener);
+        currentShape.translateYProperty().removeListener(currentListener);
+        currentShape.translateZProperty().removeListener(currentListener);
+    }
+
+    private ChangeListener<Number> createListener(Shape3D shape) {
+        return (observable, oldValue, newValue) -> {
+            cameraXform.t.xProperty().setValue(shape.getTranslateX());
+            cameraXform.t.yProperty().setValue(shape.getTranslateY());
+            cameraXform.t.zProperty().setValue(shape.getTranslateZ());
+        };
     }
 }

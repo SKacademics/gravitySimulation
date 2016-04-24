@@ -2,9 +2,7 @@ package ch.fadre.gravitySimulation.view;
 
 import ch.fadre.gravitySimulation.SimulationController;
 import ch.fadre.gravitySimulation.model.ModelSimulation;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.TitledPane;
@@ -12,16 +10,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape3D;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class ViewBuilder implements FollowListener{
+public class ViewBuilder {
 
-    private Camera camera;
-    private Point3D positionBefore;
     private CameraController cameraController;
 
     public Scene createScene(ModelSimulation modelSimulation, SimulationController controller) throws IOException {
@@ -60,7 +55,7 @@ public class ViewBuilder implements FollowListener{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("selectedObject.fxml"));
         TitledPane myPane = loader.load();
         SelectedObjectController selectedObjectController = loader.getController();
-        selectedObjectController.addFollowListener(this);
+        selectedObjectController.addFollowListener(cameraController);
         viewSimulation.addSelectionListener(selectedObjectController);
 
         return myPane;
@@ -71,7 +66,7 @@ public class ViewBuilder implements FollowListener{
         SubScene simulationScene = new SubScene(simulation3d, 200, 200, true, SceneAntialiasing.BALANCED);
         simulationScene.setFill(Color.DARKGRAY);
         cameraController = new CameraController();
-        camera = cameraController.createCamera();
+        Camera camera = cameraController.createCamera();
         cameraController.handleSceneEvents(scene, camera);
         simulationScene.setCamera(camera);
         return simulationScene;
@@ -96,29 +91,6 @@ public class ViewBuilder implements FollowListener{
         light1.setTranslateY(y);
         light1.setTranslateZ(z);
         return light1;
-    }
-
-    public void followWithCamera(ViewObject viewObject){
-        if(viewObject != null){
-            Shape3D shape = viewObject.getShape();
-            positionBefore = new Point3D(shape.getTranslateX(), shape.getTranslateY(), shape.getTranslateZ());
-            ChangeListener<Number> positionListener = createListener(shape);
-            shape.translateXProperty().addListener(positionListener);
-            shape.translateYProperty().addListener(positionListener);
-            shape.translateZProperty().addListener(positionListener);
-        } else {
-            camera.setTranslateX(positionBefore.getX());
-            camera.setTranslateY(positionBefore.getY());
-            camera.setTranslateZ(positionBefore.getZ());
-        }
-    }
-
-    private ChangeListener<Number> createListener(Shape3D shape) {
-        return (observable, oldValue, newValue) -> {
-            camera.translateXProperty().setValue(shape.getTranslateX() + 10.0);
-            camera.translateYProperty().setValue(shape.getTranslateY() + 10.0);
-            camera.translateZProperty().setValue(shape.getTranslateZ() + 10.0);
-        };
     }
 
     private ViewSimulation createViewSimulation(ModelSimulation modelSimulation, Group parent) {

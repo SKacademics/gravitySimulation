@@ -34,7 +34,8 @@ public class Main extends Application {
     }
 
     private ModelSimulation createModelSimulation() {
-        List<SpaceObject> spaceObjects = new ModelFactory().createManyObjects();
+//        List<SpaceObject> spaceObjects = new ModelFactory().createManyObjects();
+        List<SpaceObject> spaceObjects = new ModelFactory().create5Objects();
         //List<SpaceObject> spaceObjects = new ModelFactory().create4Objects();
         //List<SpaceObject> spaceObjects = new ModelFactory().create2Colliding();
         //List<SpaceObject> spaceObjects = new ModelFactory().create2NonColliding();
