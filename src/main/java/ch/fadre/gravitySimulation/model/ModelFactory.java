@@ -60,8 +60,29 @@ public class ModelFactory {
         return spaceObjects;
     }
 
+    public List<SpaceObject> create5Objects() {
+        SpaceObject object1 = createObject(0, 0, 0, 1E6);
+        object1.setLastSpeed(new Point3D(0, 0, 0));
+        object1.setRadius(4);
 
-    private SpaceObject createObject(int inX, int inY, int inZ, int inMass) {
+        SpaceObject object2 = createObject(20, 0, 0, 5000);
+        object2.setLastSpeed(new Point3D(0, 0.005, 0));
+
+        SpaceObject object3 = createObject(40, 0, 0, 5000);
+        object3.setLastSpeed(new Point3D(0, 0.005, 0));
+
+        SpaceObject object4 = createObject(0, -20, 0, 5000);
+        object4.setLastSpeed(new Point3D(-0.005,0, -0.005));
+
+        SpaceObject object5 = createObject(0, 0, -20, 5000);
+        object5.setLastSpeed(new Point3D(0,-0.005, 0));
+
+
+        return Arrays.asList(object1, object2, object3, object4, object5);
+    }
+
+
+    private SpaceObject createObject(int inX, int inY, int inZ, double inMass) {
         SpaceObject spaceObject = new SpaceObject();
         spaceObject.setLastPosition(new Point3D(inX, inY, inZ));
         spaceObject.setMass(inMass);
