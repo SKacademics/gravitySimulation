@@ -43,8 +43,6 @@ public class ControlsController {
     private CheckBox mergeObjectsCheckBox;
     @FXML
     private Label objectCountLabel;
-    @FXML
-    private Pane stacky;
 
     private ModelSimulation currentSimulation;
     private SimulationController simulationController;
@@ -88,7 +86,7 @@ public class ControlsController {
         });
         controller.getViewSimulation().fpsProperty().addListener((observable, oldValue, newValue) -> {
             animationFPSLabel.setText(formatTimeStepLabel(newValue) + " FPS");
-            if (changeCount % 10 == 0) {
+            if (changeCount % 2 == 0) {
                 simulationStepsLabel.setText(formatSimulationSteps(computeSimulationStepsPerSecond(currentSimulation.getSimulationStepCount())));
             }
             objectCountLabel.setText(String.valueOf(currentSimulation.getObjectCount()));

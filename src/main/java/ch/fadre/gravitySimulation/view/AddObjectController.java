@@ -2,7 +2,6 @@ package ch.fadre.gravitySimulation.view;
 
 import ch.fadre.gravitySimulation.SimulationController;
 import ch.fadre.gravitySimulation.model.SpaceObject;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Point3D;
 import javafx.scene.control.TextField;
@@ -23,7 +22,7 @@ public class AddObjectController {
 
     }
 
-    public void setSimulationController(SimulationController simulationController) {
+    void setSimulationController(SimulationController simulationController) {
         this.simulationController = simulationController;
     }
 
