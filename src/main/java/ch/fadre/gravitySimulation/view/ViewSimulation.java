@@ -108,8 +108,8 @@ public class ViewSimulation {
     private void updateAnimationFPS(long now) {
         frameCount++;
         double timeForFrameMs = ((double) now - lastFrameTimeStamp) / 1000000.0;
-        frameTimeAvg = 0.1 * timeForFrameMs + frameTimeAvg * 0.9;
-        if (frameCount % 3 == 0) {
+        frameTimeAvg = 0.2 * timeForFrameMs + frameTimeAvg * 0.8;
+        if (frameCount % 2 == 0) {
             double fps = 1000 / frameTimeAvg;
             fpsProperty.set(fps);
         }
