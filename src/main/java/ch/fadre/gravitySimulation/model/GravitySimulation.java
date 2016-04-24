@@ -9,9 +9,10 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 
+@SuppressWarnings("WeakerAccess")
 public class GravitySimulation {
 
-    private static final double GRAVITY_CONSTANT = 6.674 * 10E-11;
+    static final double GRAVITY_CONSTANT = 6.674 * 10E-11;
     private static final int SINGLE_THREAD_OBJECT_LIMIT = 50;
     private static final double ONE_THIRD = 1.0 / 3.0;
     private static final double SPHERE_EQUATION_CONSTANT = 0.620350490899400;
@@ -111,7 +112,7 @@ public class GravitySimulation {
         }
     }
 
-    private Point3D computeGravityVector(SpaceObject current) {
+    Point3D computeGravityVector(SpaceObject current) {
         List<Point3D> forces = objects.stream().filter(other -> current != other).map(other -> {
             double force = computeGravityBetweenBodies(current, other);
             Point3D direction = other.getLastPosition().subtract(current.getLastPosition());
@@ -121,7 +122,7 @@ public class GravitySimulation {
         return forces.stream().reduce(Point3D::add).orElse(new Point3D(0, 0, 0));
     }
 
-    private double computeGravityBetweenBodies(SpaceObject inBody1, SpaceObject inBody2) {
+    double computeGravityBetweenBodies(SpaceObject inBody1, SpaceObject inBody2) {
         double distance = inBody1.getLastPosition().distance(inBody2.getLastPosition());
         double collisionDistance = inBody1.getRadius() + inBody2.getRadius();
         if (distance < collisionDistance && parameters.isWeakenCollisions()) {
