@@ -20,7 +20,8 @@ import java.util.List;
 
 public class ControlsController {
 
-    private List<IResetListener> resetListeners;
+    private List<IResetListener> simulationResetListeners;
+    private List<IResetListener> cameraResetListeners;
 
     @FXML
     private Label currentTimeStep;
@@ -44,10 +45,11 @@ public class ControlsController {
     private ModelSimulation currentSimulation;
 
     public ControlsController() {
-        resetListeners = new ArrayList<>();
+        simulationResetListeners = new ArrayList<>();
+        cameraResetListeners = new ArrayList<>();
     }
 
-    public void setCurrentSimulation(SimulationController controller) {
+    void setCurrentSimulation(SimulationController controller) {
         if (this.currentSimulation != null) {
             timeStepSlider.valueProperty().unbind();
         }
@@ -96,14 +98,14 @@ public class ControlsController {
         long stepDifference = stepCount - lastStepCount;
         long timeDifferenceNs = currentTime - lastStepTimeStamp;
         double stepsPerSecond = ((double) stepDifference / timeDifferenceNs) * 1_000_000_000;
-        double weightedStepsPerSecond = 0.9 * lastStepsPersSecond + 0.1 * stepsPerSecond;
+        double weightedStepsPerSecond = 0.9 * lastStepsPerSecond + 0.1 * stepsPerSecond;
         lastStepTimeStamp = currentTime;
         lastStepCount = stepCount;
-        lastStepsPersSecond = weightedStepsPerSecond;
+        lastStepsPerSecond = weightedStepsPerSecond;
         return weightedStepsPerSecond;
     }
 
-    private double lastStepsPersSecond;
+    private double lastStepsPerSecond;
     private long lastStepCount;
     private long lastStepTimeStamp;
 
@@ -119,17 +121,25 @@ public class ControlsController {
     }
 
     public void resetButtonAction() {
-        resetListeners.forEach(IResetListener::reset);
+        simulationResetListeners.forEach(IResetListener::reset);
         lastStepCount = 0;
     }
 
-    public void addResetListener(IResetListener listener) {
-        resetListeners.add(listener);
+    void addResetListener(IResetListener listener) {
+        simulationResetListeners.add(listener);
     }
 
-    public void updateParams(SimulationParameters newParameters) {
+    void updateParams(SimulationParameters newParameters) {
         timeStepSlider.setValue(newParameters.getTimeStep());
         weakCollisionsCheckBox.selectedProperty().setValue(newParameters.isWeakenCollisions());
         mergeObjectsCheckBox.selectedProperty().setValue(newParameters.isMergeObjects());
+    }
+
+    public void resetCameraAction() {
+        cameraResetListeners.forEach(IResetListener::reset);
+    }
+
+    void addCameraResetListener(IResetListener resetListener) {
+        cameraResetListeners.add(resetListener);
     }
 }

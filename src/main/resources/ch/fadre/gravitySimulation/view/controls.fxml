@@ -48,7 +48,8 @@
             </GridPane.margin>
         </HBox>
         <Label fx:id="currentTimeStep" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Button fx:id="resetButton" mnemonicParsing="false" onAction="#resetButtonAction" text="Reset Simulation" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+        <Button fx:id="resetSimulationButton" mnemonicParsing="false" onAction="#resetButtonAction" text="Reset Simulation" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+        <Button fx:id="resetCameraButton" mnemonicParsing="false" onAction="#resetCameraAction" text="Reset Camera" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
         <Label prefHeight="17.0" prefWidth="104.0" text="Animation FPS" GridPane.rowIndex="4" />
         <Label fx:id="animationFPSLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <Label text="Simulation Steps /s " GridPane.rowIndex="5" />

@@ -7,9 +7,7 @@ class CameraController {
 
     private static final int ZOOM_MULTIPLIER = 10;
     private static final double CAMERA_DISTANCE = 150;
-    private static final double ALT_MULTIPLIER = 0.5;
     private static final double SHIFT_MULTIPLIER = 10;
-    private static final double CONTROL_MULTIPLIER = 0.2;
 
     private final Xform cameraXform = new Xform();
     private final Xform cameraXform2 = new Xform();
@@ -21,9 +19,10 @@ class CameraController {
     private double mouseOldY;
     private double mouseDeltaX;
     private double mouseDeltaY;
+    private Camera camera;
 
     Camera createCamera() {
-        Camera camera = new PerspectiveCamera(true);
+        camera = new PerspectiveCamera(true);
         configureNavigation(camera);
         return camera;
     }
@@ -38,14 +37,18 @@ class CameraController {
         cameraXform2.getChildren().add(cameraXform3);
         cameraXform3.getChildren().add(inCamera);
 
-        cameraXform.rotateX.setAngle(40);
-        cameraXform.rotateY.setAngle(320.0);
-        cameraXform3.setRotateZ(180.0);
+        setInitialPosition(inCamera);
 
         inCamera.setNearClip(0.1);
         inCamera.setFarClip(1000000);
-        inCamera.setTranslateZ(-CAMERA_DISTANCE);
         return cameraXform;
+    }
+
+    private void setInitialPosition(Camera inCamera) {
+        cameraXform.rotateX.setAngle(40);
+        cameraXform.rotateY.setAngle(320.0);
+        cameraXform3.setRotateZ(180.0);
+        inCamera.setTranslateZ(-CAMERA_DISTANCE);
     }
 
     private void handleMouse(Scene scene, Camera camera) {
@@ -129,31 +132,35 @@ class CameraController {
     }
 
     private void moveX(KeyEvent event, boolean positive) {
-        cameraXform2.t.setX(cameraXform2.t.getX() + getShiftMultitplier(event, positive));
+        cameraXform2.t.setX(cameraXform2.t.getX() + getShiftMultiplier(event, positive));
     }
 
     private void moveZ(KeyEvent event, Camera camera, boolean positive) {
         if (event.isControlDown()) {
-            cameraXform2.t.setY(cameraXform2.t.getY() + getShiftMultitplier(event, positive));
+            cameraXform2.t.setY(cameraXform2.t.getY() + getShiftMultiplier(event, positive));
         } else {
-            camera.setTranslateZ(camera.getTranslateZ() + getShiftMultitplier(event, positive));
+            camera.setTranslateZ(camera.getTranslateZ() + getShiftMultiplier(event, positive));
         }
 
     }
 
     private void rotateX(KeyEvent event, boolean positive) {
-        cameraXform.rotateX.setAngle(cameraXform.rotateX.getAngle() + getShiftMultitplier(event, positive));
+        cameraXform.rotateX.setAngle(cameraXform.rotateX.getAngle() + getShiftMultiplier(event, positive));
     }
 
     private void rotateY(KeyEvent event, boolean positive) {
-        cameraXform.rotateY.setAngle(cameraXform.rotateY.getAngle() + getShiftMultitplier(event, positive));
+        cameraXform.rotateY.setAngle(cameraXform.rotateY.getAngle() + getShiftMultiplier(event, positive));
     }
 
-    private double getShiftMultitplier(KeyEvent event, boolean positive) {
+    private double getShiftMultiplier(KeyEvent event, boolean positive) {
         double sign = positive ? 1.0 : -1.0;
         if (event.isShiftDown()) {
             return SHIFT_MULTIPLIER * sign;
         }
         return sign;
+    }
+
+    public void resetCamera() {
+        setInitialPosition(camera);
     }
 }

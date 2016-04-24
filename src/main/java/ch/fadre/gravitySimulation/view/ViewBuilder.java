@@ -55,6 +55,7 @@ public class ViewBuilder implements FollowListener{
         ControlsController controlsController = loader.getController();
         controlsController.setCurrentSimulation(controller);
         controlsController.addResetListener(controller::resetScene);
+        controlsController.addCameraResetListener(cameraController::resetCamera);
         controller.addParameterListener(controlsController::updateParams);
         return myPane;
     }
