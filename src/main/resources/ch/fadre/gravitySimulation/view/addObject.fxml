@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="161.0" prefWidth="356.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fadre.gravitySimulation.view.AddObjectController">
+   <children>
+      <FlowPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label text="Position">
+               <FlowPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </FlowPane.margin>
+            </Label>
+            <Label text="X" />
+            <TextField fx:id="posX" prefHeight="25.0" prefWidth="60.0" text="0.0">
+               <FlowPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </FlowPane.margin>
+            </TextField>
+            <Label text="Y" />
+            <TextField fx:id="posY" prefHeight="25.0" prefWidth="60.0" text="0.0">
+               <FlowPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </FlowPane.margin>
+            </TextField>
+            <Label text="Z" />
+            <TextField fx:id="posZ" prefHeight="25.0" prefWidth="60.0" text="0.0">
+               <FlowPane.margin>
+                  <Insets left="5.0" />
+               </FlowPane.margin>
+            </TextField>
+         </children>
+      </FlowPane>
+      <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+         <children>
+            <Label prefHeight="17.0" prefWidth="49.0" text="Speed">
+               <FlowPane.margin>
+                  <Insets left="5.0" />
+               </FlowPane.margin>
+            </Label>
+            <Label text="X" />
+            <TextField fx:id="speedX" prefHeight="25.0" prefWidth="60.0" text="0.0">
+               <FlowPane.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </FlowPane.margin>
+            </TextField>
+            <Label text="Y" />
+            <TextField fx:id="speedY" prefHeight="25.0" prefWidth="60.0" text="0.0">
+               <FlowPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </FlowPane.margin>
+            </TextField>
+            <Label text="Z" />
+            <TextField fx:id="speedZ" prefHeight="25.0" prefWidth="60.0" text="0.0">
+               <FlowPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </FlowPane.margin>
+            </TextField>
+         </children>
+      </FlowPane>
+      <FlowPane prefHeight="41.0" prefWidth="356.0" GridPane.rowIndex="2">
+         <children>
+            <Label prefHeight="17.0" prefWidth="45.0" text="Mass">
+               <FlowPane.margin>
+                  <Insets left="5.0" />
+               </FlowPane.margin>
+            </Label>
+            <TextField fx:id="mass" prefHeight="25.0" prefWidth="74.0" text="1000">
+               <FlowPane.margin>
+                  <Insets left="5.0" top="5.0" />
+               </FlowPane.margin>
+            </TextField>
+         </children>
+      </FlowPane>
+      <Button mnemonicParsing="false" onAction="#onAddObject" text="Add Object" GridPane.rowIndex="3" />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints minWidth="10.0" prefWidth="800.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="64.0" minHeight="32.0" prefHeight="40.0" />
+      <RowConstraints maxHeight="109.0" minHeight="32.0" prefHeight="40.0" />
+      <RowConstraints maxHeight="109.0" minHeight="32.0" prefHeight="40.0" />
+      <RowConstraints maxHeight="109.0" minHeight="32.0" prefHeight="40.0" />
+      <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" />
+   </rowConstraints>
+</GridPane>

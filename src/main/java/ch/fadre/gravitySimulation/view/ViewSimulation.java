@@ -15,6 +15,7 @@ import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.Sphere;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class ViewSimulation {
 
     private List<ObjectSelectionListener> selectionListeners = new ArrayList<>();
 
-    public ViewSimulation(ModelSimulation modelSimulation, Group simulationViewParent) {
+    ViewSimulation(ModelSimulation modelSimulation, Group simulationViewParent) {
         this.simulationViewParent = simulationViewParent;
         viewObjects = createShapes(modelSimulation);
         simulationViewParent.getChildren().addAll(getShapes(viewObjects));
@@ -41,18 +42,25 @@ public class ViewSimulation {
 
     private List<ViewObject> createShapes(ModelSimulation modelSimulation) {
         List<ViewObject> viewObjects = new ArrayList<>();
-        modelSimulation.getGravitySimulation().getObjects().forEach(o -> {
-                    Shape3D shape = new Sphere(o.getRadius());
-                    Point3D lastPosition = o.getLastPosition();
-                    shape.setTranslateX(lastPosition.getX());
-                    shape.setTranslateY(lastPosition.getY());
-                    shape.setTranslateZ(lastPosition.getZ());
-                    ViewObject viewObject = new ViewObject(o, shape);
-                    shape.setOnMouseClicked(event -> handleSelection(viewObject));
-                    viewObjects.add(viewObject);
-                }
-        );
+        modelSimulation.getGravitySimulation().getObjects().forEach(o -> viewObjects.add(createViewObject(o)));
         return viewObjects;
+    }
+
+    public void addObject(SpaceObject spaceObject) {
+        ViewObject viewObject = createViewObject(spaceObject);
+        viewObjects.add(viewObject);
+        simulationViewParent.getChildren().addAll(viewObject.getShape());
+    }
+
+    private ViewObject createViewObject(SpaceObject o) {
+        Shape3D shape = new Sphere(o.getRadius());
+        Point3D lastPosition = o.getLastPosition();
+        shape.setTranslateX(lastPosition.getX());
+        shape.setTranslateY(lastPosition.getY());
+        shape.setTranslateZ(lastPosition.getZ());
+        ViewObject viewObject = new ViewObject(o, shape);
+        shape.setOnMouseClicked(event -> handleSelection(viewObject));
+        return viewObject;
     }
 
     private void handleSelection(ViewObject viewObject) {
@@ -73,7 +81,7 @@ public class ViewSimulation {
         return viewObjects.stream().map(ViewObject::getShape).collect(toList());
     }
 
-    public DoubleProperty fpsProperty() {
+    DoubleProperty fpsProperty() {
         return fpsProperty;
     }
 
@@ -112,7 +120,7 @@ public class ViewSimulation {
         animationTimer.stop();
     }
 
-    public void removeAllObjects() {
+    private void removeAllObjects() {
         List<Node> toRemove = simulationViewParent.getChildren().stream()
                 .filter(c -> c instanceof Shape3D)
                 .collect(toList());
@@ -136,7 +144,7 @@ public class ViewSimulation {
         simulationViewParent.getChildren().addAll(getShapes(viewObjects));
     }
 
-    public void addSelectionListener(ObjectSelectionListener selectionListener) {
+    void addSelectionListener(ObjectSelectionListener selectionListener) {
         selectionListeners.add(selectionListener);
     }
 }

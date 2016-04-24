@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fadre.gravitySimulation.view.ControlsController">
+<GridPane fx:id="layout" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.fadre.gravitySimulation.view.ControlsController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="10.0" prefWidth="114.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="364.0" minWidth="10.0" prefWidth="186.0" />
@@ -49,7 +49,6 @@
         </HBox>
         <Label fx:id="currentTimeStep" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Button fx:id="resetSimulationButton" mnemonicParsing="false" onAction="#resetButtonAction" text="Reset Simulation" GridPane.rowIndex="3" GridPane.valignment="TOP" />
-        <Button fx:id="resetCameraButton" mnemonicParsing="false" onAction="#resetCameraAction" text="Reset Camera" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
         <Label prefHeight="17.0" prefWidth="104.0" text="Animation FPS" GridPane.rowIndex="4" />
         <Label fx:id="animationFPSLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <Label text="Simulation Steps /s " GridPane.rowIndex="5" />
@@ -64,6 +63,12 @@
       <Label fx:id="objectCountLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
       <Label text="Simulated time" GridPane.rowIndex="6" />
       <Label fx:id="simulatedTimeLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Button mnemonicParsing="false" onAction="#showAddObject" text="+" textAlignment="CENTER" GridPane.rowIndex="3" />
+      <StackPane fx:id="stacky" alignment="TOP_LEFT" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <children>
+              <Button fx:id="resetCameraButton" mnemonicParsing="false" onAction="#resetCameraAction" text="Reset Camera" />
+         </children>
+      </StackPane>
     </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

@@ -9,9 +9,9 @@ import javafx.scene.shape.Box;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AxisCreator {
+class AxisCreator {
 
-    public Group buildAxes() {
+    Group buildAxes() {
         System.out.println("Building Axes...()");
         final PhongMaterial redMaterial = createPhongMaterial(Color.DARKRED, Color.RED);
         final PhongMaterial greenMaterial = createPhongMaterial(Color.DARKGREEN, Color.GREEN);

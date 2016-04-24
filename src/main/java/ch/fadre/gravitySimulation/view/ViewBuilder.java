@@ -7,9 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point3D;
 import javafx.geometry.Pos;
 import javafx.scene.*;
-import javafx.scene.control.SplitPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -24,7 +22,6 @@ public class ViewBuilder implements FollowListener{
 
     private Camera camera;
     private Point3D positionBefore;
-    private ChangeListener<Number> positionListener;
     private CameraController cameraController;
 
     public Scene createScene(ModelSimulation modelSimulation, SimulationController controller) throws IOException {
@@ -37,8 +34,7 @@ public class ViewBuilder implements FollowListener{
 
         Pane simulationPane = new Pane(simulationScene);
         Pane controls = buildControls(controller);
-        TitledPane selectedObjectPane = buildSelectedObjectPane(controller, viewSimulation);
-
+        TitledPane selectedObjectPane = buildSelectedObjectPane(viewSimulation);
 
         StackPane stackPane = new StackPane(simulationPane, selectedObjectPane);
         stackPane.setAlignment(Pos.BOTTOM_RIGHT);
@@ -60,7 +56,7 @@ public class ViewBuilder implements FollowListener{
         return myPane;
     }
 
-    private TitledPane buildSelectedObjectPane(SimulationController controller, ViewSimulation viewSimulation) throws IOException {
+    private TitledPane buildSelectedObjectPane(ViewSimulation viewSimulation) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("selectedObject.fxml"));
         TitledPane myPane = loader.load();
         SelectedObjectController selectedObjectController = loader.getController();
@@ -106,7 +102,7 @@ public class ViewBuilder implements FollowListener{
         if(viewObject != null){
             Shape3D shape = viewObject.getShape();
             positionBefore = new Point3D(shape.getTranslateX(), shape.getTranslateY(), shape.getTranslateZ());
-            positionListener = createListener(shape);
+            ChangeListener<Number> positionListener = createListener(shape);
             shape.translateXProperty().addListener(positionListener);
             shape.translateYProperty().addListener(positionListener);
             shape.translateZProperty().addListener(positionListener);

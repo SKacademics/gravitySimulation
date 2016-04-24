@@ -7,13 +7,15 @@ import ch.fadre.gravitySimulation.model.ModelSimulation;
 import ch.fadre.gravitySimulation.model.SimulationParameters;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +43,11 @@ public class ControlsController {
     private CheckBox mergeObjectsCheckBox;
     @FXML
     private Label objectCountLabel;
+    @FXML
+    private Pane stacky;
 
     private ModelSimulation currentSimulation;
+    private SimulationController simulationController;
 
     public ControlsController() {
         simulationResetListeners = new ArrayList<>();
@@ -50,6 +55,7 @@ public class ControlsController {
     }
 
     void setCurrentSimulation(SimulationController controller) {
+        this.simulationController = controller;
         if (this.currentSimulation != null) {
             timeStepSlider.valueProperty().unbind();
         }
@@ -142,4 +148,23 @@ public class ControlsController {
     void addCameraResetListener(IResetListener resetListener) {
         cameraResetListeners.add(resetListener);
     }
+
+    public void showAddObject() throws IOException {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.initModality(Modality.NONE);
+        alert.initStyle(StageStyle.UTILITY);
+        alert.setTitle("Add Object");
+        alert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+
+        FXMLLoader loader = new FXMLLoader(AddObjectController.class.getResource("addObject.fxml"));
+        Pane myPane = loader.load();
+        AddObjectController controller = loader.getController();
+        controller.setSimulationController(simulationController);
+
+        alert.onCloseRequestProperty().addListener(e -> alert.close());
+        alert.setOnCloseRequest(e -> alert.close());
+        alert.getDialogPane().setContent(myPane);
+        alert.show();
+    }
 }
+

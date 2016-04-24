@@ -3,6 +3,7 @@ package ch.fadre.gravitySimulation;
 import ch.fadre.gravitySimulation.model.ModelSimulation;
 import ch.fadre.gravitySimulation.model.ResetHandler;
 import ch.fadre.gravitySimulation.model.SimulationParameters;
+import ch.fadre.gravitySimulation.model.SpaceObject;
 import ch.fadre.gravitySimulation.view.ViewSimulation;
 
 import java.util.ArrayList;
@@ -37,6 +38,11 @@ public class SimulationController {
             viewSimulation.stopViewSimulation();
         }
         modelSimulation.stop();
+    }
+
+    public void addObject(SpaceObject newObject){
+        modelSimulation.addObject(newObject);
+        viewSimulation.addObject(newObject);
     }
 
     public ModelSimulation getModelSimulation() {
