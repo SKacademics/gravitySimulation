@@ -5,19 +5,27 @@ import ch.fadre.gravitySimulation.SimulationController;
 import ch.fadre.gravitySimulation.model.GravitySimulation;
 import ch.fadre.gravitySimulation.model.ModelSimulation;
 import ch.fadre.gravitySimulation.model.SimulationParameters;
+import ch.fadre.gravitySimulation.model.SpaceObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.StageStyle;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ControlsController {
@@ -164,5 +172,29 @@ public class ControlsController {
         alert.getDialogPane().setContent(myPane);
         alert.show();
     }
-}
 
+    public void saveToFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("."));
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("JSON", "json");
+        fileChooser.getExtensionFilters().add(filter);
+        fileChooser.setInitialFileName("simulation.json");
+        fileChooser.setSelectedExtensionFilter(filter);
+        File file = fileChooser.showSaveDialog(null);
+        List<SpaceObject> objects = simulationController.getModelSimulation().getGravitySimulation().getObjects();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String s = gson.toJson(objects);
+        try {
+            Files.write(Paths.get(file.toURI()), Collections.singletonList(s));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void loadFromFile() {
+
+    }
+
+
+}

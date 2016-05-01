@@ -19,6 +19,7 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
     </rowConstraints>
     <children>
         <Label text="Adjust time step">
@@ -67,6 +68,8 @@
         <Label fx:id="simulatedTimeLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
         <Button mnemonicParsing="false" onAction="#showAddObject" text="+" textAlignment="CENTER" GridPane.rowIndex="3" />
         <Button fx:id="resetCameraButton" mnemonicParsing="false" onAction="#resetCameraAction" text="Reset Camera" GridPane.columnIndex="1" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+      <Button mnemonicParsing="false" onAction="#saveToFile" text="Save to file" GridPane.rowIndex="8" />
+      <Button mnemonicParsing="false" onAction="#loadFromFile" text="Load from file" GridPane.columnIndex="1" GridPane.rowIndex="8" />
     </children>
     <padding>
         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
