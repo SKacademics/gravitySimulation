@@ -98,9 +98,9 @@ public class GravitySimulation {
                           .collect(toList());
     }
 
-    private boolean isCollided(SpaceObject current, SpaceObject other) {
+    boolean isCollided(SpaceObject current, SpaceObject other) {
         double noCollisionDistance = current.getRadius() + other.getRadius();
-        double objectDistance = other.getPosition().distance(current.getPosition());
+        double objectDistance = other.getLastPosition().distance(current.getLastPosition());
         return objectDistance < noCollisionDistance;
     }
 

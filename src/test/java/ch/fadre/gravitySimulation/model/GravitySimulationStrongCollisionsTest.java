@@ -87,6 +87,34 @@ public class GravitySimulationStrongCollisionsTest {
         assertThat(forceVector.getZ(), is(0.0));
     }
 
+    @Test
+    public void testIsCollided_notCollided() throws Exception {
+
+        SpaceObject object1 = createObject(0.0, 0.0, 0.0, 0.1,1);
+        SpaceObject object2 = createObject(0.0, 2.2, 0.0, 0.1,1);
+
+        assertFalse(gravitySimulation.isCollided(object1, object2));
+    }
+
+    @Test
+    public void testIsCollided_collided() throws Exception {
+
+        SpaceObject object1 = createObject(0.0, 0.0, 0.0, 0.1,1);
+        SpaceObject object2 = createObject(0.0, 1.8, 0.0, 0.1,1);
+
+        assertTrue(gravitySimulation.isCollided(object1, object2));
+    }
+
+
+    @Test
+    public void testIsCollided_ObjectsTouching() throws Exception {
+
+        SpaceObject object1 = createObject(0.0, 0.0, 0.0, 0.1,1);
+        SpaceObject object2 = createObject(0.0, 2.0, 0.0, 0.1,1);
+
+        assertFalse(gravitySimulation.isCollided(object1, object2));
+    }
+
     private SpaceObject createObject(double inX, double inY, double inZ, double inMass) {
         return createObject(inX, inY, inZ, inMass, 1);
     }
