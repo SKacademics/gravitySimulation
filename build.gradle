@@ -5,6 +5,9 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'idea'
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 mainClassName = "ch.fadre.gravitySimulation.Main"
 
 repositories {
